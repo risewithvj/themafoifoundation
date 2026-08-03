@@ -3,35 +3,7 @@ Maintained by: Vijaya Kumar L (risewithvj)
 GitHub: https://github.com/risewithvj
 LinkedIn: https://www.linkedin.com/in/vijayakumarl/
 */
-import crypto from 'crypto';
-
-function sign(data, secret) {
-  return crypto.createHmac('sha256', secret).update(data).digest('hex');
-}
-
-function verifyCaptcha(captchaAnswer, captchaToken) {
-  const secret = process.env.CAPTCHA_SECRET;
-  if (!secret || !captchaAnswer || !captchaToken) return false;
-
-  let decoded;
-  try {
-    decoded = Buffer.from(captchaToken, 'base64').toString('utf8');
-  } catch {
-    return false;
-  }
-
-  const [expiry, signature] = decoded.split('.');
-  if (!expiry || !signature) return false;
-  if (Date.now() > Number(expiry)) return false; // expired, ask them to refresh
-
-  const expectedSignature = sign(`${captchaAnswer}.${expiry}`, secret);
-
-  // Constant-time compare to avoid leaking info via timing
-  const a = Buffer.from(signature);
-  const b = Buffer.from(expectedSignature);
-  if (a.length !== b.length) return false;
-  return crypto.timingSafeEqual(a, b);
-}
+import { verifyCaptcha } from '../lib/captcha.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();

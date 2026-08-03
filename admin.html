@@ -431,6 +431,39 @@ LinkedIn: https://www.linkedin.com/in/vijayakumarl/
     .btn-signin:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(24,73,214,0.38); }
     .btn-signin:active { transform: translateY(0); }
 
+    /* Login captcha widget (mirrors the public form's captcha) */
+    .captcha-wrap { display: flex; align-items: center; gap: 10px; }
+    .captcha-code {
+      min-width: 96px; text-align: center; padding: 12px 14px;
+      background: var(--blue-l); color: var(--blue-d);
+      font-family: 'Courier New', monospace; font-weight: 800; font-size: 18px; letter-spacing: 4px;
+      border-radius: 12px; border: 1.5px dashed #B9CBF5;
+      user-select: none; -webkit-user-select: none;
+    }
+    .captcha-refresh {
+      width: 44px; height: 44px; flex-shrink: 0; border: 1.5px solid #E8EDF5; border-radius: 12px;
+      background: #F7F9FC; color: #1849D6; font-size: 17px; cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .captcha-refresh:hover { background: var(--blue-l); border-color: #1849D6; transform: rotate(60deg); }
+    .captcha-input-wrap { flex: 1; min-width: 0; }
+    .captcha-input-wrap .l-input { padding-left: 14px; }
+
+    /* Full-screen loading state shown until /api/config resolves */
+    #configLoading {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: #F0F4FF; color: var(--blue-d);
+      font-size: 14px; font-weight: 600; text-align: center; padding: 24px;
+    }
+    #configLoading .cfg-spinner {
+      width: 34px; height: 34px; margin: 0 auto 16px;
+      border: 3px solid #D6E0F5; border-top-color: #1849D6; border-radius: 50%;
+      animation: cfgspin 0.8s linear infinite;
+    }
+    #configLoading .cfg-load-sub { margin-top: 6px; font-weight: 500; color: var(--muted); }
+    @keyframes cfgspin { to { transform: rotate(360deg); } }
+
     .login-bottom-note {
       margin-top: auto; padding-top: 40px;
       font-size: 12.5px; color: #C0C8D8; line-height: 1.7;
@@ -698,7 +731,14 @@ LinkedIn: https://www.linkedin.com/in/vijayakumarl/
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- CONFIG LOADING STATE (shown until /api/config resolves) -->
+<div id="configLoading">
+  <div>
+    <div class="cfg-spinner"></div>
+    <div>Loading secure configuration…</div>
+  </div>
+</div>
+
 <!-- LOGIN SCREEN -->
 <div id="loginScreen">
   <div class="login-screen">
@@ -745,6 +785,17 @@ LinkedIn: https://www.linkedin.com/in/vijayakumarl/
               <button type="button" id="togglePw" class="pw-toggle">
                 <svg id="eyeIco" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
+            </div>
+          </div>
+
+          <div class="l-group">
+            <div class="l-input-label">Verification Code</div>
+            <div class="captcha-wrap">
+              <span class="captcha-code" id="adminCaptchaCode">••••</span>
+              <button type="button" class="captcha-refresh" id="adminCaptchaRefresh" title="Get a new code" aria-label="Refresh code">⟳</button>
+              <div class="l-input-wrap captcha-input-wrap">
+                <input type="text" id="adminCaptchaInput" class="l-input" placeholder="Enter code" inputmode="numeric" maxlength="6" autocomplete="off" />
+              </div>
             </div>
           </div>
 
@@ -1081,10 +1132,12 @@ LinkedIn: https://www.linkedin.com/in/vijayakumarl/
 <div class="toast" id="toast"></div>
 
 <script>
-/* ── CONFIG ── */
+/* ── CONFIG ──
+   SUPABASE_URL and SUPABASE_ANON_KEY are populated at runtime from /api/config
+   (see boot() at the bottom of this script) so they are never hardcoded here. */
 const CFG = {
-  SUPABASE_URL:      'https://sybbmwncglqzwnruzyuf.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN5YmJtd25jZ2xxenducnV6eXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzOTQ4MTgsImV4cCI6MjEwMDk3MDgxOH0.QSSKWVf_w0VFwl0FKvK8UWWWMVhPYdzdxGWeLoS2AjY',
+  SUPABASE_URL:      '',
+  SUPABASE_ANON_KEY: '',
   TABLE:             'student_interest',
   PAGE_SIZE:         20,
 };
@@ -1201,14 +1254,43 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+/* ── LOGIN CAPTCHA ── */
+let adminCaptchaToken = null;
+
+async function loadAdminCaptcha() {
+  const codeEl = $('adminCaptchaCode');
+  const inputEl = $('adminCaptchaInput');
+  if (!codeEl) return;
+  codeEl.textContent = '••••';
+  if (inputEl) inputEl.value = '';
+  try {
+    const res = await fetch('/api/captcha');
+    const data = await res.json();
+    codeEl.textContent = data.code;
+    adminCaptchaToken = data.token;
+  } catch {
+    codeEl.textContent = '----';
+    adminCaptchaToken = null;
+  }
+}
+
+$('adminCaptchaRefresh').addEventListener('click', loadAdminCaptcha);
+
 $('loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const email = $('adminUser').value.trim();
   const pass  = $('adminPass').value;
+  const captchaAnswer = $('adminCaptchaInput').value.trim();
   const err   = $('loginError');
 
   if (!email || !pass) {
     err.textContent = 'Please enter your email and password.';
+    err.classList.add('show');
+    return;
+  }
+
+  if (!captchaAnswer) {
+    err.textContent = 'Please enter the verification code.';
     err.classList.add('show');
     return;
   }
@@ -1219,19 +1301,22 @@ $('loginForm').addEventListener('submit', async e => {
   err.classList.remove('show');
 
   try {
-    const res = await fetch(`${CFG.SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+    const res = await fetch('/api/admin-login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': CFG.SUPABASE_ANON_KEY,
-      },
-      body: JSON.stringify({ email: email, password: pass }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        password: pass,
+        captchaAnswer: captchaAnswer,
+        captchaToken: adminCaptchaToken,
+      }),
     });
     const data = await res.json();
     if (!res.ok || !data.access_token) {
-      err.textContent = data.error_description || 'Invalid email or password.';
+      err.textContent = data.error || 'Invalid email or password.';
       err.classList.add('show');
       $('adminPass').value = '';
+      loadAdminCaptcha();
       return;
     }
     sessionStorage.clear();
@@ -1242,6 +1327,7 @@ $('loginForm').addEventListener('submit', async e => {
   } catch {
     err.textContent = 'Login failed. Please check your connection.';
     err.classList.add('show');
+    loadAdminCaptcha();
   } finally {
     $('signinBtn').disabled = false;
     $('signinTxt').textContent = 'Sign In';
@@ -1512,8 +1598,31 @@ $('delConfirm').addEventListener('click', async () => {
 /* ── INIT ── */
 // Always clear session on fresh page load — forces login every time
 sessionStorage.removeItem('mafoi_admin');
-$('loginScreen').style.display = 'block';
+
+// Keep the app hidden behind the loading state until /api/config resolves
+$('loginScreen').style.display = 'none';
 $('dashScreen').style.display = 'none';
+
+(async function boot() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error(`Config request failed (${res.status})`);
+    const cfg = await res.json();
+    if (!cfg.url || !cfg.anonKey) throw new Error('Server configuration is incomplete.');
+    CFG.SUPABASE_URL = cfg.url;
+    CFG.SUPABASE_ANON_KEY = cfg.anonKey;
+  } catch (err) {
+    $('configLoading').innerHTML =
+      '<div><p>Unable to load configuration.</p>' +
+      '<p class="cfg-load-sub">Please refresh the page or try again later.</p></div>';
+    return;
+  }
+
+  // Config ready — hide the loader, reveal the login screen and prime the captcha
+  $('configLoading').style.display = 'none';
+  $('loginScreen').style.display = 'block';
+  loadAdminCaptcha();
+})();
 </script>
 </body>
 </html>
