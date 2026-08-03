@@ -1143,11 +1143,14 @@ const CFG = {
 };
 
 /* ── SUPABASE ── */
-const hdrs = () => ({
-  'Content-Type': 'application/json',
-  'apikey': CFG.SUPABASE_ANON_KEY,
-  'Authorization': `Bearer ${CFG.SUPABASE_ANON_KEY}`,
-});
+const hdrs = () => {
+  const token = sessionStorage.getItem('mafoi_token') || CFG.SUPABASE_ANON_KEY;
+  return {
+    'Content-Type': 'application/json',
+    'apikey': CFG.SUPABASE_ANON_KEY,
+    'Authorization': `Bearer ${token}`,
+  };
+};
 async function sbDelete(id) {
   const token = sessionStorage.getItem('mafoi_token') || CFG.SUPABASE_ANON_KEY;
 
