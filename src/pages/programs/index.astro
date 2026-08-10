@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+import { verticals } from '../../data/site.js';
+import { verticalOf, listedPrograms } from '../../data/programs.js';
+---
+<Layout title="Programmes" description="Every skilling programme delivered by The Ma Foi Foundation, grouped by vertical — DISHA first.">
+  <section class="section--navy section--tight">
+    <div class="container">
+      <p class="eyebrow">What we do</p>
+      <h1>Our Programmes</h1>
+      <p class="lead">{listedPrograms.length} programmes across {verticals.length} verticals — from our founding DISHA
+        initiative to future-ready EV, AI and data skilling. Choose a vertical to explore.</p>
+      <nav class="vjump" aria-label="Jump to vertical">
+        {verticals.map((v) => <a href={`#${v.key}`}>{v.title}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  {verticals.map((v, idx) => {
+    const list = verticalOf(v.key);
+    return (
+      <section id={v.key} class={`section ${idx % 2 === 1 ? 'section--grey' : ''}`}>
+        <div class="container">
+          <div class="vhead reveal">
+            <div>
+              <p class="eyebrow">{String(idx + 1).padStart(2, '0')} · {list.length} programme{list.length === 1 ? '' : 's'}</p>
+              <h2>{v.title}</h2>
+              <p class="lead">{v.blurb}</p>
+            </div>
+          </div>
+          <div class="grid grid--3">
+            {list.map((p) => <ProgramCard program={p} />)}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</Layout>
+
+<style>
+  .vjump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--sp-3); }
+  .vjump a {
+    font-size: 0.8rem; font-weight: 600;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+  }
+  .vjump a:hover { background: #fff; color: var(--tmf-navy-a); }
+  .vhead { margin-bottom: var(--sp-4); max-width: 62ch; scroll-margin-top: calc(var(--header-h) + 12px); }
+  section[id] { scroll-margin-top: var(--header-h); }
+</style>

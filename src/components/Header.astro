@@ -1,0 +1,417 @@
+---
+import { mainNav, verticals } from '../data/site.js';
+import { verticalOf, listedPrograms } from '../data/programs.js';
+
+const path = Astro.url.pathname;
+const isActive = (href) => (href === '/' ? path === '/' : path.startsWith(href));
+const simpleNav = mainNav.filter((i) => !i.mega);
+const before = ['Home', 'About', 'What We Offer'];
+const leftNav = simpleNav.filter((i) => before.includes(i.label));
+const rightNav = simpleNav.filter((i) => !before.includes(i.label));
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="The Ma Foi Foundation — home">
+      <img src="/images/brand/tmf-logo.png" width="700" height="190" alt="The Ma Foi Foundation logo" />
+    </a>
+
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary">
+      <div class="drawer-head">
+        <img src="/images/brand/tmf-logo.png" width="700" height="190" alt="The Ma Foi Foundation logo" />
+        <button class="nav-close" aria-label="Close menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <ul class="nav-list">
+        {leftNav.map((item) => (
+          <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+
+        <li class="has-mega">
+          <a class="mega-trigger" href="/programs" aria-haspopup="true" aria-expanded="false"
+             aria-current={isActive('/programs') ? 'page' : undefined}>
+            Programs<span class="caret" aria-hidden="true"></span>
+          </a>
+
+          <div class="mega">
+            <div class="mega-cats">
+              {verticals.map((v) => (
+                <div class="mega-cat" data-cat={v.key}>
+                  <button class="cat-btn" aria-expanded="false">
+                    <span class="cat-name">{v.title}</span>
+                    <span class="cat-count">{verticalOf(v.key).length}</span>
+                    <span class="cat-caret" aria-hidden="true"></span>
+                  </button>
+                  <div class="mega-flyout">
+                    <p class="flyout-title">{v.title}</p>
+                    <p class="flyout-blurb">{v.blurb}</p>
+                    <ul class="flyout-list">
+                      {verticalOf(v.key).map((p) => (
+                        <li><a href={`/programs/${p.slug}`}>{p.title}</a></li>
+                      ))}
+                    </ul>
+                    <a class="flyout-all" href={`/programs#${v.key}`}>View all {v.title} →</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="mega-default" aria-hidden="true">
+              <p class="eyebrow">Our programmes</p>
+              <p class="mega-default-title">{listedPrograms.length} programmes across {verticals.length} verticals</p>
+              <p class="mega-default-text">Hover a category to see its programmes — from our founding DISHA
+                initiative to future-ready EV, AI and data skilling.</p>
+              <a class="btn btn--primary" href="/programs">Browse all programmes</a>
+            </div>
+          </div>
+        </li>
+
+        {rightNav.map((item) => (
+          <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <div class="nav-overlay" hidden></div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--tmf-grey-100);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    min-height: var(--header-h);
+  }
+  .brand img { height: 46px; width: auto; }
+
+  .primary-nav .nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 1.4vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+  }
+  .nav-list > li { position: static; }
+  .nav-list > li > a,
+  .mega-trigger {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--tmf-navy-a);
+    padding: 0.5rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+  }
+  .nav-list > li > a[aria-current='page'],
+  .nav-list > li > a:hover,
+  .mega-trigger:hover,
+  .mega-trigger[aria-current='page'] { color: var(--tmf-blue-400); border-bottom-color: var(--tmf-blue-400); }
+  .caret { width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); margin-top: -3px; transition: transform 0.2s; }
+
+  .drawer-head { display: none; }
+
+  /* ---------------- Desktop two-level mega ---------------- */
+  .has-mega { position: static; }
+  .mega {
+    position: absolute;
+    left: 0; right: 0;
+    top: 100%;
+    background: var(--tmf-white);
+    border-top: 1px solid var(--tmf-grey-100);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    max-width: var(--container);
+    margin-inline: auto;
+    min-height: 372px;
+  }
+  .has-mega:hover .mega,
+  .has-mega:focus-within .mega { opacity: 1; visibility: visible; transform: none; }
+
+  .mega-cats { border-right: 1px solid var(--tmf-grey-100); padding: var(--sp-2) 0; }
+  .mega-cat { position: static; }
+  .cat-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    border: 0;
+    text-align: left;
+    padding: 0.6rem var(--sp-3);
+    cursor: pointer;
+    font-family: var(--font-body);
+    color: var(--tmf-navy-a);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .cat-name { flex: 1; }
+  .cat-count {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--tmf-blue-400);
+    background: rgba(150, 216, 253, 0.22);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+  }
+  .cat-caret { width: 6px; height: 6px; border-right: 2px solid var(--tmf-muted); border-bottom: 2px solid var(--tmf-muted); transform: rotate(-45deg); }
+  .mega-cat:hover .cat-btn,
+  .mega-cat:focus-within .cat-btn { background: var(--tmf-offwhite); color: var(--tmf-blue-400); }
+  .mega-cat:hover .cat-caret { border-color: var(--tmf-blue-400); }
+
+  .mega-flyout {
+    position: absolute;
+    left: 340px; right: 0; top: 0; bottom: 0;
+    padding: var(--sp-4) var(--sp-4);
+    background: var(--tmf-white);
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+  }
+  .mega-cat:hover .mega-flyout,
+  .mega-cat:focus-within .mega-flyout { opacity: 1; visibility: visible; z-index: 2; }
+  .flyout-title { font-family: var(--font-head); font-weight: 700; font-size: 1.3rem; color: var(--tmf-navy-a); margin: 0 0 0.25rem; }
+  .flyout-blurb { color: var(--tmf-muted); font-size: 0.85rem; margin: 0 0 var(--sp-2); max-width: 60ch; }
+  .flyout-list {
+    list-style: none; margin: 0 0 var(--sp-2); padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem var(--sp-3);
+  }
+  .flyout-list a { font-size: 0.86rem; color: var(--tmf-ink); font-weight: 500; display: block; padding: 0.15rem 0; }
+  .flyout-list a:hover { color: var(--tmf-blue-400); }
+  .flyout-all { font-weight: 700; font-size: 0.85rem; color: var(--tmf-blue-400); }
+
+  .mega-default {
+    position: absolute;
+    left: 340px; right: 0; top: 0; bottom: 0;
+    padding: var(--sp-5) var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background: var(--tmf-offwhite);
+    z-index: 1;
+  }
+  .mega-default-title { font-family: var(--font-head); font-weight: 700; font-size: 1.5rem; color: var(--tmf-navy-a); margin: 0 0 0.4rem; }
+  .mega-default-text { color: var(--tmf-muted); max-width: 46ch; margin: 0 0 var(--sp-3); }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: 0;
+    padding: 10px;
+    cursor: pointer;
+  }
+  .nav-toggle span { width: 26px; height: 2px; background: var(--tmf-navy-a); border-radius: 2px; transition: 0.2s; }
+  .nav-close { display: none; }
+  .nav-overlay { display: none; }
+
+  /* ---------------- Mobile drawer ---------------- */
+  @media (max-width: 1024px) {
+    /* backdrop-filter creates a containing block that would clip the fixed drawer — drop it on mobile */
+    .site-header { backdrop-filter: none; background: var(--tmf-white); }
+    .nav-toggle { display: flex; }
+    .nav-overlay {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 42, 74, 0.55);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s;
+      z-index: 110;
+    }
+    .nav-overlay.show { opacity: 1; visibility: visible; }
+
+    .primary-nav {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: min(92vw, 400px);
+      background: var(--tmf-white);
+      box-shadow: var(--shadow-lg);
+      transform: translateX(100%);
+      transition: transform 0.28s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+    }
+    .primary-nav.open { transform: none; }
+
+    .drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-2) var(--sp-3);
+      border-bottom: 1px solid var(--tmf-grey-100);
+      position: sticky;
+      top: 0;
+      background: var(--tmf-white);
+      z-index: 2;
+    }
+    .drawer-head img { height: 40px; width: auto; }
+    .nav-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px; height: 42px;
+      border: 1px solid var(--tmf-grey-100);
+      border-radius: 10px;
+      background: var(--tmf-white);
+      color: var(--tmf-navy-a);
+      cursor: pointer;
+    }
+
+    .nav-list { flex-direction: column; align-items: stretch; gap: 0; padding: var(--sp-1) 0 var(--sp-5); }
+    .nav-list > li { border-bottom: 1px solid var(--tmf-grey-100); }
+    .nav-list > li > a,
+    .mega-trigger {
+      padding: 0.95rem var(--sp-3);
+      border-bottom: 0;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .mega-trigger[aria-expanded='true'] .caret { transform: rotate(-135deg); margin-top: 3px; }
+
+    /* mega becomes an inline accordion — display toggling (fully removed from flow when closed) */
+    .mega {
+      position: static;
+      display: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      box-shadow: none;
+      border-top: 0;
+      min-height: 0;
+      grid-template-columns: 1fr;
+      background: var(--tmf-offwhite);
+    }
+    .has-mega.open .mega { display: block; }
+    .mega-cats { border-right: 0; padding: 0; }
+    .mega-default { display: none; }
+
+    .mega-cat { border-top: 1px solid var(--tmf-grey-100); }
+    .cat-btn { padding: 0.8rem var(--sp-3) 0.8rem var(--sp-4); }
+    .cat-caret { transition: transform 0.2s; }
+    .mega-cat.open .cat-btn { color: var(--tmf-blue-400); }
+    .mega-cat.open .cat-caret { transform: rotate(45deg); border-color: var(--tmf-blue-400); }
+
+    .mega-flyout {
+      position: static;
+      opacity: 1;
+      visibility: visible;
+      padding: 0 var(--sp-3) var(--sp-2) var(--sp-5);
+      display: none;
+    }
+    .mega-cat.open .mega-flyout { display: block; }
+    .flyout-title, .flyout-blurb { display: none; }
+    .flyout-list { grid-template-columns: 1fr; gap: 0; }
+    .flyout-list a { padding: 0.5rem 0; }
+    .flyout-all { display: inline-block; padding: 0.4rem 0 0.6rem; }
+
+    .nav-toggle[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  }
+
+  :global(body.nav-open) { overflow: hidden; }
+</style>
+
+<script>
+  const header = document.querySelector('.site-header');
+  const toggle = header.querySelector('.nav-toggle');
+  const closeBtn = header.querySelector('.nav-close');
+  const overlay = header.querySelector('.nav-overlay');
+  const nav = header.querySelector('#primary-nav');
+  const megaItem = header.querySelector('.has-mega');
+  const megaTrigger = megaItem.querySelector('.mega-trigger');
+  const isMobile = () => window.matchMedia('(max-width: 1024px)').matches;
+
+  function openDrawer() {
+    nav.classList.add('open');
+    overlay.classList.add('show');
+    overlay.hidden = false;
+    document.body.classList.add('nav-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
+  }
+  function closeDrawer() {
+    nav.classList.remove('open');
+    overlay.classList.remove('show');
+    document.body.classList.remove('nav-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+  }
+
+  toggle.addEventListener('click', () => (nav.classList.contains('open') ? closeDrawer() : openDrawer()));
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && nav.classList.contains('open')) closeDrawer(); });
+
+  // Programs: on mobile, tap toggles the accordion instead of navigating.
+  megaTrigger.addEventListener('click', (e) => {
+    if (isMobile()) {
+      e.preventDefault();
+      const open = megaItem.classList.toggle('open');
+      megaTrigger.setAttribute('aria-expanded', String(open));
+    }
+  });
+
+  // Category buttons: single-open accordion — opening one closes the others.
+  const cats = megaItem.querySelectorAll('.mega-cat');
+  cats.forEach((cat) => {
+    const btn = cat.querySelector('.cat-btn');
+    btn.addEventListener('click', () => {
+      if (!isMobile()) return;
+      const willOpen = !cat.classList.contains('open');
+      cats.forEach((other) => {
+        if (other !== cat) {
+          other.classList.remove('open');
+          other.querySelector('.cat-btn').setAttribute('aria-expanded', 'false');
+        }
+      });
+      cat.classList.toggle('open', willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+
+  // Any real navigation link closes the drawer — but NOT the Programs trigger (it toggles the accordion).
+  nav.querySelectorAll('a[href]:not(.mega-trigger)').forEach((a) =>
+    a.addEventListener('click', () => { if (isMobile()) closeDrawer(); })
+  );
+
+  // Reset state when resizing back to desktop.
+  window.addEventListener('resize', () => {
+    if (!isMobile()) {
+      closeDrawer();
+      megaItem.classList.remove('open');
+      megaItem.querySelectorAll('.mega-cat.open').forEach((c) => c.classList.remove('open'));
+    }
+  });
+</script>

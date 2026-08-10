@@ -1,0 +1,107 @@
+---
+import { site, verticals } from '../data/site.js';
+const year = 2026;
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="/images/brand/tmf-logo.png" width="700" height="190" alt="The Ma Foi Foundation logo" class="footer-logo" />
+      <p class="footer-tag">{site.tagline}</p>
+      <p class="footer-desc">{site.description}</p>
+
+      <!-- Official CIEL HR co-brand lockup (horizontal, reverse) from TMF_-_Design_Guidelines.pdf -->
+      <img
+        class="cobrand-lockup"
+        src="/images/brand/cobrand-horizontal-reverse.png"
+        width="1235" height="262"
+        alt="The Ma Foi Foundation — powering by CIEL HR co-brand logo lockup" />
+    </div>
+
+    <nav class="footer-col" aria-label="Programmes">
+      <h4>Programmes</h4>
+      <ul>
+        {verticals.slice(0, 6).map((v) => (
+          <li><a href={`/programs#${v.key}`}>{v.title}</a></li>
+        ))}
+        <li><a href="/programs">All programmes →</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Explore">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="/about">About / Our Journey</a></li>
+        <li><a href="/what-we-offer">What We Offer</a></li>
+        <li><a href="/impact">Impact &amp; Alumni</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/partner-with-us">Partner With Us</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <address class="footer-contact">
+        {site.contact.address}<br />
+        <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><br />
+        <a href={site.contact.instagramUrl} rel="noopener">{site.contact.instagram}</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="container footer-bar-inner">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p>The CSR arm of {site.parent}.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--tmf-gradient); color: rgba(255,255,255,0.82); margin-top: auto; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: var(--sp-4);
+    padding-block: var(--sp-6) var(--sp-5);
+  }
+  .footer-logo {
+    height: 52px; width: auto;
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .footer-tag { font-family: var(--font-head); font-style: italic; color: var(--tmf-sky-100); margin: var(--sp-2) 0 var(--sp-1); }
+  .footer-desc { font-size: 0.9rem; color: rgba(255,255,255,0.72); max-width: 42ch; }
+
+  .cobrand-lockup {
+    height: 58px;
+    width: auto;
+    margin-top: var(--sp-3);
+    display: block;
+  }
+
+  .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: var(--sp-2); }
+  .footer-col ul { list-style: none; margin: 0; padding: 0; }
+  .footer-col li { margin-bottom: 0.5rem; }
+  .footer-col a, .footer-contact a { color: rgba(255,255,255,0.82); font-size: 0.9rem; }
+  .footer-col a:hover, .footer-contact a:hover { color: #fff; }
+  .footer-contact { font-style: normal; font-size: 0.9rem; line-height: 1.9; color: rgba(255,255,255,0.72); }
+
+  .footer-bar { border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .footer-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    padding-block: var(--sp-2);
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.60);
+  }
+  @media (max-width: 900px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bar-inner { flex-direction: column; }
+  }
+</style>

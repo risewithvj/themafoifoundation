@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { allImages } from '../data/images.js';
+
+// Readable label per image folder, for descriptive alt text.
+const folderLabels = {
+  'ai-coe': 'AI Lab & AI programmes',
+  automobile: 'Automotive Service training',
+  bfsi: 'BFSI skilling',
+  'customer-care': 'Customer Care training',
+  ddugky: 'DDUGKY skilling mission',
+  'disha-sports': 'Gems of DISHA sports academy',
+  'drivers-license': 'Driver’s License & Mobility programme',
+  'ev-coe': 'EV Centre of Excellence',
+  'ev-training': 'EV Maintenance training',
+  'financial-literacy': 'Financial Literacy programme',
+  'food-processing': 'Food Processing & Livelihood programme',
+  gda: 'General Duty Assistant healthcare training',
+  general: 'Foundation community work',
+  lift: 'Lift Installation & Maintenance programme',
+  'mfi-gl': 'Microfinance & Gold Loan training',
+  other: 'Skilling programmes',
+  plumbing: 'Plumbing training',
+  rocketry: 'Rocketry & STEM awareness',
+  scholarship: 'DISHA Scholarship programme',
+  sewing: 'Sewing Machine Operator programme',
+  welding: 'Advanced Welding training',
+};
+
+const manifest = allImages();
+// Interleave folders so the grid feels varied rather than grouped.
+const buckets = Object.entries(manifest).map(([k, v]) => v.map((src) => ({ src, label: folderLabels[k] || 'Programme' })));
+const flat = [];
+let more = true, idx = 0;
+while (more) {
+  more = false;
+  for (const b of buckets) {
+    if (b[idx]) { flat.push(b[idx]); more = true; }
+  }
+  idx++;
+}
+---
+<Layout title="Gallery" description="Photography from across The Ma Foi Foundation’s skilling programmes and community work.">
+  <section class="section--navy section--tight">
+    <div class="container">
+      <p class="eyebrow">In pictures</p>
+      <h1>Gallery</h1>
+      <p class="lead">{flat.length} moments from across our programmes — training floors, Centres of
+        Excellence, community camps and graduation days.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="masonry">
+        {flat.map((im, i) => (
+          <figure class="m-item reveal">
+            <img src={im.src} alt={`${im.label} — photograph ${i + 1}`} loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .masonry { columns: 4 260px; column-gap: var(--sp-2); }
+  .m-item { margin: 0 0 var(--sp-2); break-inside: avoid; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); background: var(--tmf-grey-100); }
+  .m-item img { width: 100%; height: auto; display: block; transition: transform 0.4s ease; }
+  .m-item:hover img { transform: scale(1.04); }
+</style>

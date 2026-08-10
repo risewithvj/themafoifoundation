@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StatBadges from '../components/StatBadges.astro';
+import Gallery from '../components/Gallery.astro';
+import { homeStats } from '../data/site.js';
+import { imagesForFolders } from '../data/images.js';
+
+const general = imagesForFolders(['general', 'gda', 'bfsi']);
+const heroImg = general[0];
+const galleryImgs = general.slice(1, 7);
+
+const alumniStats = [
+  { value: '1,000+', label: 'Alumni across locations' },
+  { value: '2×', label: 'In-person meets a year' },
+  { value: 'Always-on', label: 'Mentorship & upskilling' },
+];
+---
+<Layout title="Impact & Alumni" description="2 Lakh+ lives impacted, a 1,000+ strong alumni network, and lasting career continuity.">
+  <section class="section--navy section--tight">
+    <div class="container">
+      <p class="eyebrow">Our impact</p>
+      <h1>Outcomes that outlast the programme</h1>
+      <p class="lead">Two decades of skilling measured not in sessions delivered, but in careers
+        started and livelihoods sustained.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="topstat-inner reveal" style="text-align:center;margin-bottom:var(--sp-5)">
+        <p class="topstat-num">2,53,200+</p>
+        <p class="topstat-label">lives impacted across India by 2026</p>
+      </div>
+      <div class="reveal"><StatBadges stats={homeStats} columns={4} /></div>
+    </div>
+  </section>
+
+  <!-- Alumni -->
+  <section class="section section--grey">
+    <div class="container alumni-grid">
+      <div class="reveal">
+        <p class="eyebrow">Alumni engagement</p>
+        <h2>A 1,000+ strong alumni network</h2>
+        <p>Career support does not end at placement. The <strong>TMF Alumni Forum</strong> connects a
+          network of over 1,000 alumni across locations for mentorship, job-transition support and
+          upskilling guidance.</p>
+        <p>Biannual in-person alumni meets keep the community close — turning individual success
+          stories into a network that lifts the next cohort.</p>
+        <div class="alumni-stats"><StatBadges stats={alumniStats} columns={3} /></div>
+      </div>
+      <div class="reveal"><Gallery images={imagesForFolders(['general']).slice(0, 4)} title="alumni community" columns={2} /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
+        <p class="eyebrow">In pictures</p>
+        <h2>Impact in the field</h2>
+      </div>
+      <Gallery images={galleryImgs} title="programme impact" columns={3} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .topstat-num { font-family: var(--font-head); font-weight: 800; font-size: clamp(2.6rem, 8vw, 5rem); color: var(--tmf-blue-400); line-height: 1; margin: 0; }
+  .topstat-label { font-size: 1.05rem; color: var(--tmf-muted); margin: 0.5rem 0 0; }
+  .alumni-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--sp-5); align-items: center; }
+  .alumni-stats { margin-top: var(--sp-3); }
+  @media (max-width: 820px) { .alumni-grid { grid-template-columns: 1fr; } }
+</style>

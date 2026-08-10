@@ -1,0 +1,48 @@
+---
+import { partners } from '../data/site.js';
+const { heading = 'Our Partners & CSR Collaborators', subheading = '' } = Astro.props;
+---
+<section class="section section--grey partners">
+  <div class="container">
+    <div class="partners-head reveal">
+      <p class="eyebrow">Trusted collaborations</p>
+      <h2>{heading}</h2>
+      {subheading && <p class="lead">{subheading}</p>}
+    </div>
+    <ul class="partner-grid reveal">
+      {partners.map((p) => (
+        <li class="partner-card">
+          <img src={`/images/partners/${p.slug}.png`} alt={`${p.name} logo`} loading="lazy" decoding="async" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .partners-head { text-align: center; max-width: 60ch; margin: 0 auto var(--sp-4); }
+  .partners-head .lead { margin-inline: auto; }
+  .partner-grid {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-2);
+  }
+  .partner-card {
+    background: var(--tmf-white);
+    border: 1px solid var(--tmf-grey-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--sp-3);
+    min-height: 96px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .partner-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .partner-card img { max-height: 52px; width: auto; object-fit: contain; }
+  @media (max-width: 900px) { .partner-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 520px) { .partner-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

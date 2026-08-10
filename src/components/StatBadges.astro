@@ -1,0 +1,69 @@
+---
+// stats: [{ value, label }]
+// columns: desktop column count (4 | 3 | 1). Responsive steps guarantee EVEN rows at every
+// breakpoint — no orphaned last row.
+const { stats = [], variant = 'light', columns = 4 } = Astro.props;
+---
+<ul class={`stats stats--${variant} stats--c${columns}`}>
+  {stats.map((s) => (
+    <li class="stat">
+      <span class="stat-value">{s.value}</span>
+      <span class="stat-label">{s.label}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .stats {
+    list-style: none;
+    display: grid;
+    gap: var(--sp-2);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 4 across → 2 across → (1 across only below 480 so 8 stats stay 2×4 on phones) */
+  .stats--c4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .stats--c4 { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 479px) { .stats--c4 { grid-template-columns: 1fr; } }
+
+  /* 3 across → 1 across (3 divides evenly by 3 and 1) */
+  .stats--c3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 620px) { .stats--c3 { grid-template-columns: 1fr; } }
+
+  /* single stacked column (e.g. narrow programme sidebar) */
+  .stats--c1 { grid-template-columns: 1fr; }
+
+  .stat {
+    background: var(--tmf-white);
+    border: 1px solid var(--tmf-grey-100);
+    border-radius: var(--radius);
+    padding: var(--sp-3) var(--sp-2);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 104px;
+  }
+  .stat-value {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    color: var(--tmf-blue-400);
+    line-height: 1.05;
+  }
+  .stat-label {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--tmf-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+  }
+  .stats--navy .stat { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); box-shadow: none; }
+  .stats--navy .stat-value { color: var(--tmf-sky-200); }
+  .stats--navy .stat-label { color: rgba(255,255,255,0.82); }
+</style>

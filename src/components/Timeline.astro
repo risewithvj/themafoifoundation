@@ -1,0 +1,103 @@
+---
+const milestones = [
+  { year: '2006', text: 'Foundation established; DISHA scholarship launched.' },
+  { year: '2008', text: 'Joy Centre started for skill training for youth.' },
+  { year: '2009', text: 'Sports Academy & Gems of DISHA launched.' },
+  { year: '2011', text: 'Expanded through government livelihood initiatives (Ajeevika).' },
+  { year: '2017', text: 'Smart Centre & Skillz on Wheelz launched.' },
+  { year: '2020', text: 'Joined national skilling missions (DDUGKY).' },
+  { year: '2021', text: 'Expanded CSR skill programmes across India.' },
+  { year: '2024', text: 'Focus on AI, EV & future skills.' },
+  { year: '2026', text: '2,53,200+ lives impacted — and growing.' },
+];
+---
+<ol class="timeline">
+  {milestones.map((m) => (
+    <li class="tl-item reveal">
+      <span class="tl-year">{m.year}</span>
+      <span class="tl-dot" aria-hidden="true"></span>
+      <div class="tl-card">
+        <p class="tl-text">{m.text}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  /* Column model: [year 84px][marker 44px][content].
+     The line and dots share the exact horizontal centre of the marker column (84 + 22 = 106px). */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 105px;            /* 106 − 1 to centre the 2px line */
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: var(--tmf-sky-100);
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 84px 44px 1fr;
+    align-items: center;    /* dot centres to the full paired block, not the first text line */
+    padding-block: var(--sp-2);
+  }
+  .tl-year {
+    grid-column: 1;
+    text-align: right;
+    padding-right: 10px;
+    font-family: var(--font-head);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--tmf-blue-400);
+    align-self: center;
+  }
+  .tl-dot {
+    grid-column: 2;
+    justify-self: center;
+    align-self: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--tmf-blue-400);
+    box-shadow: 0 0 0 5px rgba(0, 102, 178, 0.15);
+    position: relative;
+    z-index: 1;
+  }
+  .tl-card {
+    grid-column: 3;
+    background: var(--tmf-white);
+    border: 1px solid var(--tmf-grey-100);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--sp-2) var(--sp-3);
+  }
+  .tl-text { margin: 0; color: var(--tmf-ink); }
+
+  /* Mobile: line moves to the far left; year + text stack in a single column. */
+  @media (max-width: 560px) {
+    .timeline::before { left: 7px; top: 8px; bottom: 8px; }
+    .tl-item {
+      display: block;
+      position: relative;
+      padding: 0 0 var(--sp-3) 34px;
+    }
+    .tl-dot {
+      position: absolute;
+      left: 0;              /* centre = 8px, matches line centre (7+1) */
+      top: 6px;
+    }
+    .tl-year {
+      display: block;
+      text-align: left;
+      padding: 0;
+      margin-bottom: 0.35rem;
+      font-size: 1.1rem;
+    }
+  }
+</style>

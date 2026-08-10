@@ -1,0 +1,31 @@
+---
+import { verticalOf, listedPrograms } from '../data/programs.js';
+import { verticals } from '../data/site.js';
+import ProgramCard from './ProgramCard.astro';
+
+const { current } = Astro.props;
+const vTitle = verticals.find((v) => v.key === current.vertical)?.title;
+
+// Prefer same-vertical siblings; top up from other verticals if fewer than 3.
+let related = verticalOf(current.vertical).filter((p) => p.slug !== current.slug);
+if (related.length < 3) {
+  const extra = listedPrograms.filter((p) => p.vertical !== current.vertical && p.slug !== current.slug);
+  related = [...related, ...extra];
+}
+related = related.slice(0, 3);
+---
+<section class="section section--grey">
+  <div class="container">
+    <div class="rp-head reveal">
+      <p class="eyebrow">Keep exploring</p>
+      <h2>More in {vTitle}</h2>
+    </div>
+    <div class="grid grid--3">
+      {related.map((p) => <ProgramCard program={p} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .rp-head { margin-bottom: var(--sp-4); }
+</style>

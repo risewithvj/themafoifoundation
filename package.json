@@ -1,0 +1,17 @@
+{
+  "name": "tmf-website-v2",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "The Ma Foi Foundation — website (Astro static site)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^5.6.1"
+  }
+}

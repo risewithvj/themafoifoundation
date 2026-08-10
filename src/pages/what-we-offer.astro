@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { imagesForFolders } from '../data/images.js';
+import { verticals } from '../data/site.js';
+import { verticalOf } from '../data/programs.js';
+
+const heroImg = imagesForFolders(['ai-coe'])[2] || imagesForFolders(['general'])[0];
+
+const offerings = [
+  {
+    title: 'Youth Skilling & Employment',
+    note: 'Our largest focus area',
+    points: [
+      'Employment-linked programmes with direct placement across BFSI, IT, logistics and manufacturing.',
+      'College & institution-linked programmes for final-year and graduating students via ITIs and degree colleges, finishing schools and government partnerships.',
+      'Centres of Excellence & capability build — design and setup of CoEs, infrastructure, curriculum and trainer enablement across EV, AI and technical training.',
+    ],
+  },
+  {
+    title: 'Women Empowerment',
+    note: 'Breaking occupational barriers',
+    points: [
+      'Non-traditional trades — automotive, EV, forklift and driving.',
+      'Livelihood programmes — food processing, tailoring and micro-enterprise.',
+      'Mobility and transport self-employment pathways.',
+    ],
+  },
+  {
+    title: 'School Programmes',
+    note: 'Early aspiration',
+    points: [
+      'Rocketry and STEM awareness.',
+      'Tally and accounting fundamentals.',
+      'AI and digital literacy for school-age learners.',
+    ],
+  },
+];
+
+const pillars = [
+  { t: 'Deep-Rooted Execution', d: 'Pan-India delivery with zero compliance gaps.' },
+  { t: 'Industry-Aligned Outcomes', d: 'Employer-built and placement-first by design.' },
+  { t: 'Scalable Impact Systems', d: 'Replicable models backed by multi-year CSR.' },
+];
+---
+<Layout title="What We Offer" description="Youth skilling & employment, women empowerment and school programmes — employer-aligned and placement-first.">
+  <section class="section--navy section--tight">
+    <div class="container">
+      <p class="eyebrow">Areas of expertise</p>
+      <h1>What We Offer</h1>
+      <p class="lead">Employer-aligned, placement-first skilling — built around three focus areas and
+        three principles that make our impact last.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container offer-stack">
+      {offerings.map((o, i) => (
+        <article class="offer-row reveal">
+          <div class="offer-row-head">
+            <p class="eyebrow">{String(i + 1).padStart(2, '0')} · {o.note}</p>
+            <h2>{o.title}</h2>
+          </div>
+          <ul class="offer-points">
+            {o.points.map((p) => <li>{p}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--grey">
+    <div class="container">
+      <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
+        <p class="eyebrow">How we deliver</p>
+        <h2>Three pillars behind every programme</h2>
+      </div>
+      <div class="grid grid--3">
+        {pillars.map((p) => (
+          <article class="card pillar reveal">
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
+        <p class="eyebrow">Where it happens</p>
+        <h2>Explore our programme verticals</h2>
+      </div>
+      <div class="grid grid--3">
+        {verticals.map((v) => (
+          <a class="card vcard reveal" href={`/programs#${v.key}`}>
+            <h3>{v.title}</h3>
+            <p>{v.blurb}</p>
+            <span class="vcard-meta">{verticalOf(v.key).length} programme{verticalOf(v.key).length === 1 ? '' : 's'} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .offer-stack { display: grid; gap: var(--sp-4); }
+  .offer-row { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--sp-4); padding: var(--sp-4); background: var(--tmf-offwhite); border: 1px solid var(--tmf-grey-100); border-radius: var(--radius-lg); }
+  .offer-points { margin: 0; padding-left: 1.1em; display: grid; gap: 0.6rem; }
+  .offer-points li { color: var(--tmf-ink); }
+  .pillar { padding: var(--sp-4); }
+  .pillar h3 { color: var(--tmf-blue-400); }
+  .vcard { padding: var(--sp-3); display: flex; flex-direction: column; gap: 0.5rem; }
+  .vcard h3 { font-size: 1.15rem; margin: 0; }
+  .vcard p { font-size: 0.9rem; color: var(--tmf-muted); flex: 1; margin: 0; }
+  .vcard-meta { font-weight: 600; font-size: 0.82rem; color: var(--tmf-blue-400); }
+  @media (max-width: 720px) { .offer-row { grid-template-columns: 1fr; gap: var(--sp-2); } }
+</style>

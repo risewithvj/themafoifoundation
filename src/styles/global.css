@@ -1,0 +1,198 @@
+/* ============================================================
+   The Ma Foi Foundation — global styles & design tokens
+   Palette is LOCKED to 01-BRAND-DESIGN-SYSTEM.md. No other colors.
+   60% neutral / 30% ink-navy / 10% brand-blue accent.
+   ============================================================ */
+
+:root {
+  /* --- brand palette (the ONLY colors allowed) --- */
+  --tmf-sky-100: #96d8fd;
+  --tmf-sky-200: #38b6ff;
+  --tmf-blue-300: #039ae0;
+  --tmf-blue-400: #0066b2;
+  --tmf-navy-500: #004980;
+  --tmf-navy-600: #0d3166;
+  --tmf-navy-a: #002a4a; /* navy gradient start */
+  --tmf-navy-b: #004f8a; /* navy gradient end */
+  --tmf-grey-100: #e2e2e2;
+  --tmf-white: #ffffff;
+
+  /* derived neutrals from allowed tokens only (tints/opacity of the above) */
+  --tmf-offwhite: #f6fafd; /* white washed with a whisper of sky — canvas break */
+  --tmf-ink: var(--tmf-navy-a); /* body text = darkest navy, never black */
+  --tmf-muted: rgba(0, 42, 74, 0.62); /* navy-a at opacity — no new hue */
+  --tmf-gradient: linear-gradient(135deg, var(--tmf-navy-a) 0%, var(--tmf-navy-b) 100%);
+
+  /* type */
+  --font-head: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* 8pt spacing scale */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2rem;
+  --sp-5: 3rem;
+  --sp-6: 4rem;
+  --sp-7: 6rem;
+
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 2px 10px rgba(0, 42, 74, 0.06);
+  --shadow: 0 10px 30px rgba(0, 42, 74, 0.10);
+  --shadow-lg: 0 20px 55px rgba(0, 42, 74, 0.16);
+  --container: 1200px;
+  --header-h: 84px;
+}
+
+/* ---------- reset ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--tmf-ink);
+  background: var(--tmf-white);
+  line-height: 1.65;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  line-height: 1.12;
+  color: var(--tmf-navy-a);
+  margin: 0 0 var(--sp-2);
+  letter-spacing: -0.01em;
+}
+h1 { font-size: clamp(2.1rem, 5vw, 3.6rem); }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.6rem); }
+h3 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); }
+h4 { font-size: 1.1rem; }
+
+/* text-align is inherited, so paragraphs follow their section's alignment (left by default,
+   centered inside centered sections). Never use text-align: justify anywhere. */
+p { margin: 0 0 var(--sp-2); }
+
+a { color: var(--tmf-blue-400); text-decoration: none; }
+a:hover { color: var(--tmf-blue-300); }
+
+ul { margin: 0 0 var(--sp-2); padding-left: 1.2em; }
+
+/* ---------- layout helpers ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--sp-3);
+}
+.section { padding-block: var(--sp-7); }
+.section--tight { padding-block: var(--sp-6); }
+.section--grey { background: var(--tmf-offwhite); }
+.section--navy {
+  background: var(--tmf-gradient);
+  color: rgba(255,255,255,0.90);
+}
+.section--navy h1,
+.section--navy h2,
+.section--navy h3 { color: var(--tmf-white); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tmf-blue-300);
+  margin: 0 0 var(--sp-1);
+}
+.section--navy .eyebrow { color: var(--tmf-sky-200); }
+
+.lead { font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--tmf-muted); max-width: 62ch; }
+.section--navy .lead { color: rgba(255,255,255,0.82); }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85em 1.6em;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  line-height: 1;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary { background: var(--tmf-blue-400); color: #fff; box-shadow: var(--shadow-sm); }
+.btn--primary:hover { background: var(--tmf-blue-300); color: #fff; }
+.btn--ghost { background: transparent; color: var(--tmf-blue-400); border-color: var(--tmf-blue-400); }
+.btn--ghost:hover { background: var(--tmf-blue-400); color: #fff; }
+.btn--on-navy { background: var(--tmf-white); color: var(--tmf-navy-a); }
+.btn--on-navy:hover { background: var(--tmf-sky-100); color: var(--tmf-navy-a); }
+.btn--ghost-navy { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
+.btn--ghost-navy:hover { background: #fff; color: var(--tmf-navy-a); }
+
+/* ---------- cards ---------- */
+.card {
+  background: var(--tmf-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+/* ---------- grids ---------- */
+.grid { display: grid; gap: var(--sp-3); }
+.grid--2 { grid-template-columns: repeat(2, 1fr); }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 960px) {
+  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 620px) {
+  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
+}
+
+/* ---------- accessibility ---------- */
+:focus-visible { outline: 3px solid var(--tmf-sky-200); outline-offset: 2px; border-radius: 4px; }
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--tmf-navy-a);
+  color: #fff;
+  padding: 0.75em 1.25em;
+  z-index: 200;
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---------- scroll reveal (subtle motion only) ---------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn:hover, .card:hover { transform: none; }
+}

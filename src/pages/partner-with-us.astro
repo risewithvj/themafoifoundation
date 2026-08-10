@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PartnerStrip from '../components/PartnerStrip.astro';
+import { site } from '../data/site.js';
+import { imagesForFolders } from '../data/images.js';
+
+const heroImg = imagesForFolders(['bfsi', 'general'])[0];
+
+const reasons = [
+  { t: '20 years of proven execution', d: 'Two decades delivering skilling at scale, with a track record CSR teams can trust.' },
+  { t: 'End-to-end skill development', d: 'From curriculum and infrastructure to training, assessment and placement — we run the whole chain.' },
+  { t: 'Pan-India coverage', d: 'Delivery across states with zero compliance gaps.' },
+  { t: 'CSR implementation partner', d: 'A dependable on-ground partner for your CSR mandate, with transparent reporting.' },
+  { t: 'Future-ready domains', d: 'EV · Gen AI · Cloud · Data Analytics · ITI upskilling.' },
+  { t: 'Women empowerment', d: 'Non-traditional trades and livelihood programmes that move the needle on inclusion.' },
+  { t: 'Employment-linked outcomes', d: 'Placement-first design across every programme we run.' },
+];
+---
+<Layout title="Partner With Us" description="Together, let’s skill India’s next million. Partner with The Ma Foi Foundation on your CSR and skilling mandate.">
+  <section class="prog-hero">
+    {heroImg && <img class="prog-hero-bg" src={heroImg} alt="Trainees at a Ma Foi Foundation placement-linked programme" />}
+    <div class="prog-hero-overlay"></div>
+    <div class="container prog-hero-inner">
+      <p class="eyebrow" style="color:var(--tmf-sky-200)">Partner with us</p>
+      <h1>Together, Let’s Skill India’s Next Million</h1>
+      <p class="prog-hero-sum">Bring your CSR mandate to a partner with the reach, rigour and results
+        to turn investment into livelihoods.</p>
+      <a class="btn btn--on-navy" href="#contact-cta" style="margin-top:var(--sp-3)">Start a conversation</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
+        <p class="eyebrow">Why partner with us?</p>
+        <h2>Everything a CSR partner needs, under one roof</h2>
+      </div>
+      <div class="grid grid--3">
+        {reasons.map((r) => (
+          <article class="card reason reveal">
+            <h3>{r.t}</h3>
+            <p>{r.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <PartnerStrip heading="Our CSR Collaborators" subheading="We are proud to deliver alongside these corporates, foundations and skilling missions." />
+
+  <section id="contact-cta" class="section--navy section">
+    <div class="container cta-grid">
+      <div class="reveal">
+        <p class="eyebrow">Let’s talk</p>
+        <h2>Ready to build a programme together?</h2>
+        <p class="lead">Tell us about your CSR goals and we’ll design a placement-first programme
+          around them.</p>
+      </div>
+      <div class="reveal cta-actions">
+        <a class="btn btn--on-navy" href={`mailto:${site.contact.email}`}>Email {site.contact.email}</a>
+        <a class="btn btn--ghost-navy" href="/contact">Contact details →</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .prog-hero { position: relative; min-height: 60vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .prog-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .prog-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,42,74,0.3), rgba(0,42,74,0.85)); }
+  .prog-hero-inner { position: relative; z-index: 1; color: #fff; padding-block: var(--sp-6); }
+  .prog-hero-inner h1 { color: #fff; max-width: 20ch; }
+  .prog-hero-sum { color: rgba(255,255,255,0.90); max-width: 52ch; margin: 0; }
+  .reason { padding: var(--sp-3); }
+  .reason h3 { font-size: 1.15rem; color: var(--tmf-blue-400); }
+  .reason p { margin: 0; color: var(--tmf-muted); font-size: 0.95rem; }
+  .cta-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--sp-4); align-items: center; }
+  .cta-actions { display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
+  section[id] { scroll-margin-top: var(--header-h); }
+  @media (max-width: 780px) { .cta-grid { grid-template-columns: 1fr; } }
+</style>

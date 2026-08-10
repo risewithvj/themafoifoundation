@@ -1,0 +1,174 @@
+{
+  "ai-coe": [
+    "/images/ai-coe/ai-coe-01.jpg",
+    "/images/ai-coe/ai-coe-02.jpg",
+    "/images/ai-coe/ai-coe-03.jpg",
+    "/images/ai-coe/ai-coe-04.jpg",
+    "/images/ai-coe/ai-coe-05.jpg",
+    "/images/ai-coe/ai-coe-06.jpg",
+    "/images/ai-coe/ai-coe-07.jpg",
+    "/images/ai-coe/ai-coe-08.jpg",
+    "/images/ai-coe/ai-coe-09.jpg",
+    "/images/ai-coe/ai-coe-10.jpg",
+    "/images/ai-coe/ai-coe-11.jpg",
+    "/images/ai-coe/ai-coe-12.jpg",
+    "/images/ai-coe/ai-coe-13.jpg"
+  ],
+  "automobile": [
+    "/images/automobile/automobile-01.jpg",
+    "/images/automobile/automobile-02.jpg",
+    "/images/automobile/automobile-03.jpg",
+    "/images/automobile/automobile-04.jpg",
+    "/images/automobile/automobile-05.jpg"
+  ],
+  "bfsi": [
+    "/images/bfsi/bfsi-01.jpg",
+    "/images/bfsi/bfsi-02.jpg",
+    "/images/bfsi/bfsi-03.png",
+    "/images/bfsi/bfsi-04.jpg",
+    "/images/bfsi/bfsi-05.jpg"
+  ],
+  "customer-care": [
+    "/images/customer-care/customer-care-01.jpg",
+    "/images/customer-care/customer-care-02.jpg",
+    "/images/customer-care/customer-care-03.jpg",
+    "/images/customer-care/customer-care-04.jpg",
+    "/images/customer-care/customer-care-05.jpg",
+    "/images/customer-care/customer-care-06.jpg",
+    "/images/customer-care/customer-care-07.jpg"
+  ],
+  "ddugky": [
+    "/images/ddugky/ddugky-01.jpg",
+    "/images/ddugky/ddugky-02.png",
+    "/images/ddugky/ddugky-03.png",
+    "/images/ddugky/ddugky-04.png"
+  ],
+  "disha-sports": [
+    "/images/disha-sports/disha-sports-01.png",
+    "/images/disha-sports/disha-sports-02.png",
+    "/images/disha-sports/disha-sports-03.png",
+    "/images/disha-sports/disha-sports-04.png",
+    "/images/disha-sports/disha-sports-05.png",
+    "/images/disha-sports/disha-sports-06.png",
+    "/images/disha-sports/disha-sports-07.png",
+    "/images/disha-sports/disha-sports-08.png",
+    "/images/disha-sports/disha-sports-09.png"
+  ],
+  "drivers-license": [
+    "/images/drivers-license/drivers-license-01.png",
+    "/images/drivers-license/drivers-license-02.png",
+    "/images/drivers-license/drivers-license-03.png",
+    "/images/drivers-license/drivers-license-04.png",
+    "/images/drivers-license/drivers-license-05.png"
+  ],
+  "ev-coe": [
+    "/images/ev-coe/ev-coe-01.jpg",
+    "/images/ev-coe/ev-coe-02.jpg",
+    "/images/ev-coe/ev-coe-03.jpg",
+    "/images/ev-coe/ev-coe-04.png"
+  ],
+  "ev-training": [
+    "/images/ev-training/ev-training-01.jpg",
+    "/images/ev-training/ev-training-02.jpg",
+    "/images/ev-training/ev-training-03.png",
+    "/images/ev-training/ev-training-04.png",
+    "/images/ev-training/ev-training-05.png",
+    "/images/ev-training/ev-training-06.jpg",
+    "/images/ev-training/ev-training-07.jpg",
+    "/images/ev-training/ev-training-08.jpg"
+  ],
+  "financial-literacy": [
+    "/images/financial-literacy/financial-literacy-01.jpg",
+    "/images/financial-literacy/financial-literacy-02.jpg",
+    "/images/financial-literacy/financial-literacy-03.jpg",
+    "/images/financial-literacy/financial-literacy-04.jpg",
+    "/images/financial-literacy/financial-literacy-05.jpg",
+    "/images/financial-literacy/financial-literacy-06.jpg",
+    "/images/financial-literacy/financial-literacy-07.jpg",
+    "/images/financial-literacy/financial-literacy-08.jpg"
+  ],
+  "food-processing": [
+    "/images/food-processing/food-processing-01.jpg",
+    "/images/food-processing/food-processing-02.png",
+    "/images/food-processing/food-processing-03.png",
+    "/images/food-processing/food-processing-04.png"
+  ],
+  "gda": [
+    "/images/gda/gda-01.png",
+    "/images/gda/gda-02.jpg",
+    "/images/gda/gda-03.jpg",
+    "/images/gda/gda-04.jpg",
+    "/images/gda/gda-05.jpg",
+    "/images/gda/gda-06.png",
+    "/images/gda/gda-07.png",
+    "/images/gda/gda-08.png",
+    "/images/gda/gda-09.png",
+    "/images/gda/gda-10.png",
+    "/images/gda/gda-11.png",
+    "/images/gda/gda-12.jpg",
+    "/images/gda/gda-13.jpg"
+  ],
+  "general": [
+    "/images/general/general-01.jpg",
+    "/images/general/general-02.png",
+    "/images/general/general-03.png",
+    "/images/general/general-04.png",
+    "/images/general/general-05.jpg",
+    "/images/general/general-06.jpg",
+    "/images/general/general-07.png",
+    "/images/general/general-08.png"
+  ],
+  "lift": [
+    "/images/lift/lift-01.jpg",
+    "/images/lift/lift-02.jpg",
+    "/images/lift/lift-03.jpg",
+    "/images/lift/lift-04.jpg",
+    "/images/lift/lift-05.jpg",
+    "/images/lift/lift-06.jpg"
+  ],
+  "mfi-gl": [
+    "/images/mfi-gl/mfi-gl-01.jpg"
+  ],
+  "other": [
+    "/images/other/other-01.jpg",
+    "/images/other/other-02.png",
+    "/images/other/other-03.png",
+    "/images/other/other-04.jpg",
+    "/images/other/other-05.jpg"
+  ],
+  "plumbing": [
+    "/images/plumbing/plumbing-01.jpg",
+    "/images/plumbing/plumbing-02.jpg",
+    "/images/plumbing/plumbing-03.jpg",
+    "/images/plumbing/plumbing-04.jpg",
+    "/images/plumbing/plumbing-05.jpg",
+    "/images/plumbing/plumbing-06.jpg",
+    "/images/plumbing/plumbing-07.png"
+  ],
+  "rocketry": [
+    "/images/rocketry/rocketry-01.png",
+    "/images/rocketry/rocketry-02.png",
+    "/images/rocketry/rocketry-03.png",
+    "/images/rocketry/rocketry-04.png",
+    "/images/rocketry/rocketry-05.png",
+    "/images/rocketry/rocketry-06.png"
+  ],
+  "scholarship": [
+    "/images/scholarship/scholarship-01.png"
+  ],
+  "sewing": [
+    "/images/sewing/sewing-01.jpg",
+    "/images/sewing/sewing-02.png",
+    "/images/sewing/sewing-03.png",
+    "/images/sewing/sewing-04.png",
+    "/images/sewing/sewing-05.png",
+    "/images/sewing/sewing-06.png"
+  ],
+  "welding": [
+    "/images/welding/welding-01.jpg",
+    "/images/welding/welding-02.jpg",
+    "/images/welding/welding-03.jpg",
+    "/images/welding/welding-04.jpg",
+    "/images/welding/welding-05.jpg"
+  ]
+}

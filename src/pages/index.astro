@@ -1,0 +1,174 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StatBadges from '../components/StatBadges.astro';
+import PartnerStrip from '../components/PartnerStrip.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import { homeStats, verticals } from '../data/site.js';
+import { programs, verticalOf } from '../data/programs.js';
+import { imagesForFolders } from '../data/images.js';
+
+const general = imagesForFolders(['general']);
+const heroImg = general[0];
+const stripImgs = general.slice(1, 5);
+
+// A curated set of featured programmes for the home grid (one flagship per major vertical).
+const featuredSlugs = ['disha-scholarship', 'ai-lab', 'ev-maintenance-training', 'bfsi-skilling', 'gda-healthcare', 'sewing-machine-operator'];
+const featured = featuredSlugs.map((s) => programs.find((p) => p.slug === s)).filter(Boolean);
+---
+<Layout>
+  <!-- HERO -->
+  <section class="hero">
+    {heroImg && <img class="hero-bg" src={heroImg} alt="Young trainees at a Ma Foi Foundation skilling programme" />}
+    <div class="hero-overlay"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow">The CSR arm of CIEL HR · since 2006</p>
+      <h1>Shaping Lives,<br />Strengthening Communities</h1>
+      <p class="hero-sub">Two decades of purpose-driven skill development across India — empowering
+        communities, enabling livelihoods.</p>
+      <div class="hero-cta">
+        <a class="btn btn--on-navy" href="/impact">See our impact</a>
+        <a class="btn btn--ghost-navy" href="/partner-with-us">Partner with us →</a>
+      </div>
+      <div class="hero-tags">
+        <span>Women Empowerment</span>
+        <span>Placement-linked Skilling</span>
+        <span>Future-ready Tech</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP STAT -->
+  <section class="topstat">
+    <div class="container topstat-inner reveal">
+      <p class="eyebrow">Two decades of impact</p>
+      <p class="topstat-num">2 Lakh+</p>
+      <p class="topstat-label">lives impacted across India — and counting</p>
+    </div>
+  </section>
+
+  <!-- IMPACT AT A GLANCE (navy band) -->
+  <section class="section--navy section">
+    <div class="container">
+      <div class="reveal impact-head">
+        <p class="eyebrow">Impact at a glance · 2025–26</p>
+        <h2>Measurable outcomes, every year</h2>
+      </div>
+      <div class="reveal">
+        <StatBadges stats={homeStats} variant="navy" columns={4} />
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE OFFER -->
+  <section class="section">
+    <div class="container">
+      <div class="reveal offer-head">
+        <p class="eyebrow">What we offer</p>
+        <h2>Skilling built around real outcomes</h2>
+        <p class="lead">From youth employment to women’s empowerment and school STEM, our programmes are
+          employer-aligned, placement-first and built to scale.</p>
+      </div>
+      <div class="grid grid--3 offer-grid">
+        <article class="card pillar reveal">
+          <h3>Deep-Rooted Execution</h3>
+          <p>Pan-India delivery with zero compliance gaps — a trusted implementation partner for
+            corporates and government alike.</p>
+        </article>
+        <article class="card pillar reveal">
+          <h3>Industry-Aligned Outcomes</h3>
+          <p>Employer-built, placement-first curricula across BFSI, IT, logistics, manufacturing,
+            healthcare and more.</p>
+        </article>
+        <article class="card pillar reveal">
+          <h3>Scalable Impact Systems</h3>
+          <p>Replicable models and multi-year CSR partnerships that turn skilling into sustained
+            livelihoods.</p>
+        </article>
+      </div>
+      <p class="offer-more reveal"><a class="btn btn--ghost" href="/what-we-offer">Explore what we offer →</a></p>
+    </div>
+  </section>
+
+  <!-- FEATURED PROGRAMMES -->
+  <section class="section section--grey">
+    <div class="container">
+      <div class="reveal offer-head">
+        <p class="eyebrow">Explore programmes</p>
+        <h2>A programme for every pathway</h2>
+        <p class="lead">DISHA scholarships, Centres of Excellence and {programs.length}+ skilling
+          programmes across {verticals.length} verticals.</p>
+      </div>
+      <div class="grid grid--3">
+        {featured.map((p) => <ProgramCard program={p} />)}
+      </div>
+      <p class="offer-more reveal"><a class="btn btn--primary" href="/programs">See all programmes</a></p>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <PartnerStrip subheading="We deliver alongside leading corporates, foundations and skilling missions across India." />
+
+  <!-- FOUNDING FACTS / CTA -->
+  <section class="section--navy section founding">
+    <div class="container founding-grid">
+      <div class="reveal">
+        <p class="eyebrow">Our story</p>
+        <h2>From Tamil Nadu, in 2006 — to Pan-India today</h2>
+        <p class="lead">Founded in Tamil Nadu as our first base, the Foundation now reaches communities
+          across the country.</p>
+        <a class="btn btn--on-navy" href="/about">Read our journey</a>
+      </div>
+      <ul class="founding-facts reveal">
+        <li><span>20</span> years of impact</li>
+        <li><span>12</span> states of reach</li>
+        <li><span>30+</span> programmes delivered</li>
+      </ul>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero { position: relative; min-height: 86vh; display: flex; align-items: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(110deg, rgba(0, 42, 74, 0.92) 0%, rgba(0, 42, 74, 0.72) 45%, rgba(0, 79, 138, 0.45) 100%);
+  }
+  .hero-inner { position: relative; z-index: 1; color: #fff; padding-block: var(--sp-6); }
+  .hero-inner h1 { color: #fff; margin: 0 0 var(--sp-3); }
+  .hero-inner .eyebrow { color: var(--tmf-sky-200); }
+  .hero-sub { font-size: clamp(1.05rem, 2vw, 1.35rem); color: rgba(255,255,255,0.90); max-width: 54ch; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-3); }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: var(--sp-4); }
+  .hero-tags span {
+    font-size: 0.8rem; font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    padding: 0.4rem 0.9rem; border-radius: 999px;
+  }
+
+  .topstat { padding-block: var(--sp-5) var(--sp-4); }
+  .topstat-inner { text-align: center; }
+  .topstat .eyebrow { margin-bottom: var(--sp-1); }
+  .topstat-num { font-family: var(--font-head); font-weight: 800; font-size: clamp(2.6rem, 7vw, 4.5rem); color: var(--tmf-blue-400); line-height: 1; margin: 0; }
+  .topstat-label { font-size: 1.05rem; color: var(--tmf-muted); margin: 0.5rem 0 0; }
+
+  .impact-head { margin-bottom: var(--sp-4); }
+  .offer-head { max-width: 60ch; margin-bottom: var(--sp-4); }
+  .pillar { padding: var(--sp-4); }
+  .pillar h3 { color: var(--tmf-blue-400); }
+  .offer-more { margin-top: var(--sp-4); }
+
+  .founding-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--sp-5); align-items: center; }
+  .founding-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
+  .founding-facts li {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius);
+    padding: var(--sp-2) var(--sp-3);
+    font-size: 1rem; color: rgba(255,255,255,0.82);
+    display: flex; align-items: baseline; gap: 0.75rem;
+  }
+  .founding-facts span { font-family: var(--font-head); font-weight: 800; font-size: 2rem; color: var(--tmf-sky-200); }
+  @media (max-width: 780px) { .founding-grid { grid-template-columns: 1fr; } }
+</style>

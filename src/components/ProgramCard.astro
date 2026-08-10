@@ -1,0 +1,33 @@
+---
+import { imagesForFolders, altFor } from '../data/images.js';
+const { program } = Astro.props;
+const img = imagesForFolders(program.folders)[0];
+const loc = program.stats?.find((s) => /location|ITI|College|Campus|confirmed/i.test(s.label))?.value
+  || program.stats?.[program.stats.length - 1]?.value;
+---
+<a class="program-card card reveal" href={`/programs/${program.slug}`}>
+  <div class="pc-media">
+    {img
+      ? <img src={img} alt={altFor(program.title, 0)} loading="lazy" decoding="async" />
+      : <div class="pc-placeholder" aria-hidden="true"></div>}
+  </div>
+  <div class="pc-body">
+    <h3>{program.title}</h3>
+    <p class="pc-summary">{program.summary}</p>
+    <span class="pc-meta">{loc} <span class="pc-arrow" aria-hidden="true">→</span></span>
+  </div>
+</a>
+
+<style>
+  .program-card { display: flex; flex-direction: column; height: 100%; }
+  .pc-media { aspect-ratio: 16 / 10; background: var(--tmf-grey-100); overflow: hidden; }
+  .pc-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .program-card:hover .pc-media img { transform: scale(1.06); }
+  .pc-placeholder { width: 100%; height: 100%; background: var(--tmf-gradient); }
+  .pc-body { padding: var(--sp-3); display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+  .pc-body h3 { font-size: 1.15rem; margin: 0; }
+  .pc-summary { font-size: 0.9rem; color: var(--tmf-muted); margin: 0; flex: 1; }
+  .pc-meta { font-weight: 600; font-size: 0.82rem; color: var(--tmf-blue-400); }
+  .pc-arrow { transition: transform 0.18s ease; display: inline-block; }
+  .program-card:hover .pc-arrow { transform: translateX(4px); }
+</style>
