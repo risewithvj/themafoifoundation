@@ -6,19 +6,18 @@ import { imagesForFolders } from '../data/images.js';
 
 const heroImg = imagesForFolders(['bfsi', 'general'])[0];
 
+// Client-supplied "Why Partner With Us?" points (corrections draft 3).
 const reasons = [
-  { t: '20 years of proven execution', d: 'Two decades delivering skilling at scale, with a track record CSR teams can trust.' },
-  { t: 'End-to-end skill development', d: 'From curriculum and infrastructure to training, assessment and placement — we run the whole chain.' },
-  { t: 'Pan-India coverage', d: 'Delivery across states with zero compliance gaps.' },
-  { t: 'CSR implementation partner', d: 'A dependable on-ground partner for your CSR mandate, with transparent reporting.' },
-  { t: 'Future-ready domains', d: 'EV · Gen AI · Cloud · Data Analytics · ITI upskilling.' },
-  { t: 'Women empowerment', d: 'Non-traditional trades and livelihood programmes that move the needle on inclusion.' },
-  { t: 'Employment-linked outcomes', d: 'Placement-first design across every programme we run.' },
+  'Future-ready domains',
+  'Women Empowerment — Non-Traditional Trades',
+  'Employment-Linked — across all programs',
+  '20 years of proven execution — end-to-end Skill Development Programs',
+  'PAN India Coverage — CSR Implementation',
 ];
 ---
 <Layout title="Partner With Us" description="Together, let’s skill India’s next million. Partner with The Ma Foi Foundation on your CSR and skilling mandate.">
   <section class="prog-hero">
-    {heroImg && <img class="prog-hero-bg" src={heroImg} alt="Trainees at a Ma Foi Foundation placement-linked programme" />}
+    {heroImg && <img class="prog-hero-bg" src={heroImg} alt="Trainees at a Ma Foi Foundation placement-linked program" />}
     <div class="prog-hero-overlay"></div>
     <div class="container prog-hero-inner">
       <p class="eyebrow" style="color:var(--tmf-sky-200)">Partner with us</p>
@@ -32,17 +31,19 @@ const reasons = [
   <section class="section">
     <div class="container">
       <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
-        <p class="eyebrow">Why partner with us?</p>
+        <p class="eyebrow">Why Partner With Us?</p>
         <h2>Everything a CSR partner needs, under one roof</h2>
       </div>
-      <div class="grid grid--3">
+      <ul class="reasons reveal">
         {reasons.map((r) => (
-          <article class="card reason reveal">
-            <h3>{r.t}</h3>
-            <p>{r.d}</p>
-          </article>
+          <li class="reason-item">
+            <span class="reason-check" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M5 12l5 5L20 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>{r}</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
@@ -52,8 +53,8 @@ const reasons = [
     <div class="container cta-grid">
       <div class="reveal">
         <p class="eyebrow">Let’s talk</p>
-        <h2>Ready to build a programme together?</h2>
-        <p class="lead">Tell us about your CSR goals and we’ll design a placement-first programme
+        <h2>Ready to build a program together?</h2>
+        <p class="lead">Tell us about your CSR goals and we’ll design a placement-first program
           around them.</p>
       </div>
       <div class="reveal cta-actions">
@@ -71,9 +72,21 @@ const reasons = [
   .prog-hero-inner { position: relative; z-index: 1; color: #fff; padding-block: var(--sp-6); }
   .prog-hero-inner h1 { color: #fff; max-width: 20ch; }
   .prog-hero-sum { color: rgba(255,255,255,0.90); max-width: 52ch; margin: 0; }
-  .reason { padding: var(--sp-3); }
-  .reason h3 { font-size: 1.15rem; color: var(--tmf-blue-400); }
-  .reason p { margin: 0; color: var(--tmf-muted); font-size: 0.95rem; }
+  .reasons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2) var(--sp-4); }
+  .reason-item {
+    display: flex; align-items: flex-start; gap: var(--sp-2);
+    padding: var(--sp-3);
+    background: var(--tmf-offwhite);
+    border: 1px solid var(--tmf-grey-100);
+    border-radius: var(--radius);
+    font-weight: 600; color: var(--tmf-navy-a); font-size: 1.05rem;
+  }
+  .reason-check {
+    flex: none; display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--tmf-blue-400); color: #fff;
+  }
+  @media (max-width: 680px) { .reasons { grid-template-columns: 1fr; } }
   .cta-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--sp-4); align-items: center; }
   .cta-actions { display: flex; flex-direction: column; gap: var(--sp-2); align-items: flex-start; }
   section[id] { scroll-margin-top: var(--header-h); }

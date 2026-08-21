@@ -2,15 +2,20 @@
 import Layout from '../../layouts/Layout.astro';
 import ProgramCard from '../../components/ProgramCard.astro';
 import { verticals } from '../../data/site.js';
-import { verticalOf, listedPrograms } from '../../data/programs.js';
+import { verticalOf } from '../../data/programs.js';
 ---
-<Layout title="Programmes" description="Every skilling programme delivered by The Ma Foi Foundation, grouped by vertical — DISHA first.">
-  <section class="section--navy section--tight">
+<Layout title="Programs" description="Every skilling program delivered by The Ma Foi Foundation, grouped by vertical — DISHA first.">
+  <section class="section--navy section--tight prog-intro">
     <div class="container">
-      <p class="eyebrow">What we do</p>
-      <h1>Our Programmes</h1>
-      <p class="lead">{listedPrograms.length} programmes across {verticals.length} verticals — from our founding DISHA
-        initiative to future-ready EV, AI and data skilling. Choose a vertical to explore.</p>
+      <p class="eyebrow">Programs</p>
+      <h1>Programs</h1>
+      <!-- Copy supplied verbatim by the client. NOTE: the site currently lists 39 programs across
+           9 verticals — the "38 projects across 10 verticals" figure is flagged for confirmation. -->
+      <p class="lead">38 projects across 10 verticals, shaped by over two decades of grassroots
+        experience and a deep understanding of evolving community needs — from our pioneering DISHA
+        initiative to future-focused programs in EV, AI, data and emerging technologies. Explore the
+        breadth of our work and discover how each vertical translates opportunity into meaningful,
+        measurable and enduring impact.</p>
       <nav class="vjump" aria-label="Jump to vertical">
         {verticals.map((v) => <a href={`#${v.key}`}>{v.title}</a>)}
       </nav>
@@ -19,18 +24,32 @@ import { verticalOf, listedPrograms } from '../../data/programs.js';
 
   {verticals.map((v, idx) => {
     const list = verticalOf(v.key);
+    const [flagship, ...rest] = list;
     return (
-      <section id={v.key} class={`section ${idx % 2 === 1 ? 'section--grey' : ''}`}>
-        <div class="container">
-          <div class="vhead reveal">
-            <div>
-              <p class="eyebrow">{String(idx + 1).padStart(2, '0')} · {list.length} programme{list.length === 1 ? '' : 's'}</p>
-              <h2>{v.title}</h2>
-              <p class="lead">{v.blurb}</p>
-            </div>
+      <section id={v.key} class={`vsec ${idx % 2 === 1 ? 'vsec--alt' : ''}`}>
+        <div class="container vsec-inner">
+          <div class="vsec-rail reveal">
+            <span class="vsec-num">{String(idx + 1).padStart(2, '0')}</span>
+            <p class="eyebrow">Our work</p>
+            <h2>{v.title}</h2>
+            <p class="vsec-blurb">{v.blurb}</p>
           </div>
-          <div class="grid grid--3">
-            {list.map((p) => <ProgramCard program={p} />)}
+          <div class="vsec-body">
+            {flagship && (
+              <a class="flagship card reveal" href={`/programs/${flagship.slug}`}>
+                <div class="flagship-body">
+                  <span class="flagship-tag">Flagship</span>
+                  <h3>{flagship.title}</h3>
+                  <p>{flagship.summary}</p>
+                  <span class="flagship-cta">Explore this program <span aria-hidden="true">→</span></span>
+                </div>
+              </a>
+            )}
+            {rest.length > 0 && (
+              <div class="vsec-grid">
+                {rest.map((p) => <ProgramCard program={p} />)}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -39,6 +58,7 @@ import { verticalOf, listedPrograms } from '../../data/programs.js';
 </Layout>
 
 <style>
+  .prog-intro .lead { max-width: 72ch; }
   .vjump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--sp-3); }
   .vjump a {
     font-size: 0.8rem; font-weight: 600;
@@ -48,6 +68,45 @@ import { verticalOf, listedPrograms } from '../../data/programs.js';
     padding: 0.4rem 0.9rem;
   }
   .vjump a:hover { background: #fff; color: var(--tmf-navy-a); }
-  .vhead { margin-bottom: var(--sp-4); max-width: 62ch; scroll-margin-top: calc(var(--header-h) + 12px); }
-  section[id] { scroll-margin-top: var(--header-h); }
+
+  .vsec { padding-block: var(--sp-7); scroll-margin-top: var(--header-h); }
+  .vsec--alt { background: var(--tmf-offwhite); }
+  .vsec-inner { display: grid; grid-template-columns: 320px 1fr; gap: var(--sp-5); align-items: start; }
+  .vsec--alt .vsec-inner { grid-template-columns: 1fr 320px; }
+  .vsec--alt .vsec-rail { order: 2; }
+  .vsec--alt .vsec-body { order: 1; }
+
+  .vsec-rail { position: sticky; top: calc(var(--header-h) + 16px); }
+  .vsec-num {
+    display: block; font-family: var(--font-head); font-weight: 800;
+    font-size: 3.4rem; line-height: 1; color: var(--tmf-sky-100); margin-bottom: var(--sp-2);
+  }
+  .vsec-blurb { color: var(--tmf-muted); margin: 0; }
+
+  .vsec-body { display: grid; gap: var(--sp-3); }
+  .flagship {
+    display: block;
+    background: var(--tmf-gradient); color: #fff;
+    min-height: 180px;
+  }
+  .flagship-body { padding: var(--sp-4); display: flex; flex-direction: column; gap: 0.6rem; height: 100%; }
+  .flagship-tag {
+    align-self: flex-start; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--tmf-navy-a);
+    background: var(--tmf-sky-100); border-radius: 999px; padding: 0.2rem 0.7rem;
+  }
+  .flagship h3 { color: #fff; margin: 0; }
+  .flagship p { color: rgba(255,255,255,0.85); margin: 0; flex: 1; }
+  .flagship-cta { font-weight: 700; font-size: 0.9rem; color: var(--tmf-sky-100); }
+  .flagship:hover .flagship-cta { color: #fff; }
+
+  .vsec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-3); }
+
+  @media (max-width: 900px) {
+    .vsec-inner, .vsec--alt .vsec-inner { grid-template-columns: 1fr; gap: var(--sp-4); }
+    .vsec--alt .vsec-rail { order: 0; }
+    .vsec--alt .vsec-body { order: 0; }
+    .vsec-rail { position: static; }
+  }
+  @media (max-width: 560px) { .vsec-grid { grid-template-columns: 1fr; } }
 </style>

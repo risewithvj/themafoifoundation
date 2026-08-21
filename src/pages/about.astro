@@ -1,23 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Timeline from '../components/Timeline.astro';
-import Gallery from '../components/Gallery.astro';
 import { imagesForFolders } from '../data/images.js';
 
 const general = imagesForFolders(['general']);
-const ddugky = imagesForFolders(['ddugky']);
 const heroImg = general[0];
 const storyImgs = general.slice(1, 4);
+
+const missionLead = 'The Ma Foi Foundation, driven by “Our Society. Our Responsibility,”';
+const missionPoints = [
+  'To bridge the gap between talent and employment by building future-ready competencies.',
+  'To collaborate with communities, institutions, and industry partners in creating equitable career pathways.',
+  'To foster social and economic progress by enabling individuals to achieve dignity, self-reliance, and long-term success.',
+];
 ---
-<Layout title="About / Our Journey" description="The Ma Foi Foundation — the CSR arm of CIEL HR, bridging the gap between skill and opportunity since 2006.">
+<Layout title="About" description="The Ma Foi Foundation — the CSR arm of Ma Foi CIEL HR, creating meaningful and sustainable social impact for over two decades.">
   <section class="prog-hero about-hero">
     {heroImg && <img class="prog-hero-bg" src={heroImg} alt="A Ma Foi Foundation skilling session in progress" />}
     <div class="prog-hero-overlay"></div>
     <div class="container prog-hero-inner">
       <p class="eyebrow" style="color:var(--tmf-sky-200)">About the Foundation</p>
-      <h1>Bridging the gap between skill and opportunity</h1>
-      <p class="prog-hero-sum">The Ma Foi Foundation is the CSR arm of CIEL HR — a trusted skilling and
-        implementation partner for corporates and institutions across India.</p>
+      <h1>Creating meaningful, sustainable social impact</h1>
+      <p class="prog-hero-sum">The Ma Foi Foundation is a not-for-profit committed to creating
+        opportunities, strengthening livelihoods and enabling individuals to build better futures.</p>
     </div>
   </section>
 
@@ -25,12 +29,20 @@ const storyImgs = general.slice(1, 4);
     <div class="container about-grid">
       <div class="reveal">
         <p class="eyebrow">Who we are</p>
-        <h2>Founded to turn potential into livelihoods</h2>
-        <p>The Ma Foi Foundation, the CSR arm of CIEL HR, was established to bridge the gap between
-          skill and opportunity. From our first base in Tamil Nadu in 2006, we have grown into a
-          trusted implementation partner for corporates and institutions across India.</p>
-        <p>Today our work spans women’s empowerment, next-gen technology, financial literacy,
-          manufacturing and much more — always outcome-driven, always placement-first.</p>
+        <h2>Empowering people, for lasting change</h2>
+        <p>The Ma Foi Foundation (TMF) is a not-for-profit organisation committed to creating
+          meaningful and sustainable social impact. For over two decades, we have worked alongside
+          communities, institutions and corporate partners to create opportunities, strengthen
+          livelihoods and enable individuals to build better futures. From education and scholarships
+          to skilling, employment, healthcare and community development, our work is rooted in the
+          belief that lasting change begins with empowering people.</p>
+        <p>With experience across diverse communities and evolving development needs, TMF continues to
+          design and implement inclusive, scalable and impact-driven initiatives that translate
+          opportunities into meaningful outcomes and contribute to stronger, more resilient
+          communities.</p>
+        <p>Powered by the expertise of CIEL HR group, today our work spans women’s empowerment,
+          next-gen technology, financial literacy, manufacturing and much more, always outcome-driven,
+          always placement-first.</p>
         <p><strong>Vision ahead:</strong> outcome-driven skilling in future-ready domains, opening
           inclusive opportunities for every community we serve.</p>
 
@@ -47,33 +59,30 @@ const storyImgs = general.slice(1, 4);
     </div>
   </section>
 
-  <section class="section section--grey">
+  <!-- Vision & Mission (replaces the former "Our journey" timeline) -->
+  <section class="section section--grey vm">
     <div class="container">
       <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
-        <p class="eyebrow">Our journey</p>
-        <h2>Two decades of purpose — 2006 to 2026</h2>
-        <p class="lead">Every milestone below marks a step from a single scholarship to a Pan-India
-          skilling movement.</p>
+        <p class="eyebrow">What drives us</p>
+        <h2>Our vision & mission</h2>
       </div>
-      <Timeline />
-    </div>
-  </section>
-
-  <!-- DDUGKY milestone explainer -->
-  <section class="section">
-    <div class="container ddugky-grid">
-      <div class="reveal">
-        <p class="eyebrow">National skilling missions</p>
-        <h2>Joining DDUGKY, 2020</h2>
-        <p>In 2020 the Foundation joined the <strong>Deen Dayal Upadhyaya Grameen Kaushalya Yojana
-          (DDUGKY)</strong> — a Government of India skilling mission focused on rural youth. It is a
-          formal government mission rather than a single programme, and marks our step into
-          large-scale, nationally-backed livelihood skilling.</p>
-        <p>This partnership deepened our reach into underserved communities and strengthened our
-          placement-linked delivery model.</p>
-      </div>
-      <div class="reveal">
-        <Gallery images={ddugky} title="DDUGKY skilling mission" columns={2} />
+      <div class="vm-grid">
+        <article class="vm-card reveal">
+          <p class="eyebrow">Our vision</p>
+          <h3>Vision</h3>
+          <p>The Ma Foi Foundation’s vision is to empower families through holistic development in
+            education, health, and livelihoods, ultimately creating a more inclusive and equitable
+            society. This vision is achieved by focusing on marginalized communities and providing them
+            with comprehensive support and transformative initiatives.</p>
+        </article>
+        <article class="vm-card reveal">
+          <p class="eyebrow">Our mission</p>
+          <h3>Mission</h3>
+          <p class="vm-lead"><strong>{missionLead}</strong></p>
+          <ul class="vm-points">
+            {missionPoints.map((m) => <li>{m}</li>)}
+          </ul>
+        </article>
       </div>
     </div>
   </section>
@@ -84,7 +93,7 @@ const storyImgs = general.slice(1, 4);
   .prog-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .prog-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,42,74,0.3), rgba(0,42,74,0.85)); }
   .prog-hero-inner { position: relative; z-index: 1; color: #fff; padding-block: var(--sp-6); }
-  .prog-hero-inner h1 { color: #fff; max-width: 18ch; }
+  .prog-hero-inner h1 { color: #fff; max-width: 20ch; }
   .prog-hero-sum { color: rgba(255,255,255,0.90); max-width: 54ch; margin: 0; }
 
   .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--sp-5); align-items: start; }
@@ -94,6 +103,14 @@ const storyImgs = general.slice(1, 4);
 
   .cobrand-lockup { height: 66px; width: auto; margin-top: var(--sp-3); display: block; }
 
-  .ddugky-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); align-items: center; }
-  @media (max-width: 820px) { .about-grid, .ddugky-grid { grid-template-columns: 1fr; } }
+  .vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); align-items: stretch; }
+  .vm-card {
+    background: var(--tmf-white); border: 1px solid var(--tmf-grey-100);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--sp-4);
+  }
+  .vm-lead { color: var(--tmf-navy-a); }
+  .vm-points { margin: 0; padding-left: 1.1em; display: grid; gap: 0.6rem; }
+  .vm-points li { color: var(--tmf-ink); }
+
+  @media (max-width: 820px) { .about-grid, .vm-grid { grid-template-columns: 1fr; } }
 </style>

@@ -4,32 +4,35 @@ import { allImages } from '../data/images.js';
 
 // Readable label per image folder, for descriptive alt text.
 const folderLabels = {
-  'ai-coe': 'AI Lab & AI programmes',
+  'ai-coe': 'AI Lab & AI programs',
   automobile: 'Automotive Service training',
   bfsi: 'BFSI skilling',
   'customer-care': 'Customer Care training',
   ddugky: 'DDUGKY skilling mission',
   'disha-sports': 'Gems of DISHA sports academy',
-  'drivers-license': 'Driver’s License & Mobility programme',
+  'drivers-license': 'Driver’s License & Mobility program',
   'ev-coe': 'EV Centre of Excellence',
   'ev-training': 'EV Maintenance training',
-  'financial-literacy': 'Financial Literacy programme',
-  'food-processing': 'Food Processing & Livelihood programme',
+  'financial-literacy': 'Financial Literacy program',
+  'food-processing': 'Food Processing & Livelihood program',
   gda: 'General Duty Assistant healthcare training',
   general: 'Foundation community work',
-  lift: 'Lift Installation & Maintenance programme',
+  lift: 'Lift Installation & Maintenance program',
   'mfi-gl': 'Microfinance & Gold Loan training',
-  other: 'Skilling programmes',
+  other: 'Skilling programs',
   plumbing: 'Plumbing training',
   rocketry: 'Rocketry & STEM awareness',
-  scholarship: 'DISHA Scholarship programme',
-  sewing: 'Sewing Machine Operator programme',
+  scholarship: 'DISHA Scholarship program',
+  sewing: 'Sewing Machine Operator program',
   welding: 'Advanced Welding training',
 };
 
-const manifest = allImages();
+// Exclude the generic 'general'/'other' padding folders — the client asked to remove
+// irrelevant/duplicate imagery, so the gallery shows only program-specific photography.
+const excluded = new Set(['general', 'other']);
+const manifest = Object.fromEntries(Object.entries(allImages()).filter(([k]) => !excluded.has(k)));
 // Interleave folders so the grid feels varied rather than grouped.
-const buckets = Object.entries(manifest).map(([k, v]) => v.map((src) => ({ src, label: folderLabels[k] || 'Programme' })));
+const buckets = Object.entries(manifest).map(([k, v]) => v.map((src) => ({ src, label: folderLabels[k] || 'Program' })));
 const flat = [];
 let more = true, idx = 0;
 while (more) {
@@ -40,12 +43,12 @@ while (more) {
   idx++;
 }
 ---
-<Layout title="Gallery" description="Photography from across The Ma Foi Foundation’s skilling programmes and community work.">
+<Layout title="Gallery" description="Photography from across The Ma Foi Foundation’s skilling programs and community work.">
   <section class="section--navy section--tight">
     <div class="container">
       <p class="eyebrow">In pictures</p>
       <h1>Gallery</h1>
-      <p class="lead">{flat.length} moments from across our programmes — training floors, Centres of
+      <p class="lead">{flat.length} moments from across our programs — training floors, Centres of
         Excellence, community camps and graduation days.</p>
     </div>
   </section>

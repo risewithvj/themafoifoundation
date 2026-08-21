@@ -3,9 +3,9 @@
 export const site = {
   name: 'The Ma Foi Foundation',
   tagline: 'Our Society. Our Responsibility.',
-  parent: 'CIEL HR',
+  parent: 'Ma Foi CIEL HR',
   description:
-    'The CSR arm of CIEL HR — two decades of purpose-driven skill development across India, empowering communities and enabling livelihoods.',
+    'The CSR arm of Ma Foi CIEL HR — two decades of purpose-driven skill development across India, empowering communities and enabling livelihoods.',
   contact: {
     address: 'No. 41, 6th Ave, Block Q, Anna Nagar, Chennai, Tamil Nadu 600040',
     email: 'infotmf@mafoigroup.com',
@@ -15,19 +15,23 @@ export const site = {
 };
 
 // Vertical order is deliberate — DISHA first (founding brand), then CoE, then the rest.
+// Non-Technical merges the former Banking & Financial Literacy, Accounting & Commerce and
+// Logistics & Service Tech verticals. National Skill Mission holds the DDUGKY work moved off About.
 export const verticals = [
-  { key: 'disha', title: 'DISHA Programs', blurb: 'The Foundation’s founding flagship — scholarships & youth development since 2006.' },
+  { key: 'disha', title: 'DISHA Scholarships', blurb: 'The Foundation’s founding flagship — scholarships & youth development since 2006.' },
   { key: 'coe', title: 'Centres of Excellence', blurb: 'State-of-the-art labs in EV, AI, Welding & CNC built with academic and industry partners.' },
   { key: 'nextgen', title: 'NextGen Tech Skilling', blurb: 'EV, AI, Data Analytics & Cloud — future-ready, placement-linked programs.' },
-  { key: 'bfsi', title: 'Banking & Financial Literacy', blurb: 'BFSI domain skilling, financial inclusion and capital-markets awareness.' },
-  { key: 'accounting', title: 'Accounting & Commerce', blurb: 'Customer service excellence and Tally-based accounting skilling.' },
-  { key: 'manufacturing', title: 'Manufacturing & Engineering', blurb: 'Welding, CNC, lift installation, electrical and fitter trades.' },
-  { key: 'logistics', title: 'Logistics & Service Tech', blurb: 'Warehouse management and home-appliance service technician training.' },
+  { key: 'manufacturing', title: 'Technical – Manufacturing & Engineering', blurb: 'Welding, CNC, lift installation, electrical and fitter trades.' },
+  { key: 'non-technical', title: 'Non-Technical', blurb: 'Banking & financial literacy, accounting & commerce, logistics and service-technician skilling.' },
   { key: 'school', title: 'School Student Development', blurb: 'Rocketry, STEM and accounting fundamentals for school-age learners.' },
   { key: 'women', title: 'Women Empowerment', blurb: 'Non-traditional trades, healthcare, livelihoods and mobility for women.' },
   { key: 'community', title: 'Community Health & Environmental', blurb: 'Mega health camps and community sustainability initiatives.' },
+  { key: 'national-skill-mission', title: 'National Skill Mission', blurb: 'Nationally-backed livelihood skilling through the DDUGKY government mission.' },
 ];
 
+// NOTE: The client wants all 30 partner logos. Only 15 logo files exist in
+// public/images/partners/. The remaining 15 are flagged as ASSET NEEDED — add
+// their { slug, name } entries here and drop matching <slug>.png files in that folder.
 export const partners = [
   { slug: 'hdfc-parivartan', name: 'HDFC Bank Parivartan' },
   { slug: 'jombay', name: 'Jombay' },
@@ -50,7 +54,7 @@ export const partners = [
 export const mainNav = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'What We Offer', href: '/what-we-offer' },
+  { label: 'Our Work', href: '/what-we-offer' },
   { label: 'Programs', href: '/programs', mega: true },
   { label: 'Impact', href: '/impact' },
   { label: 'Gallery', href: '/gallery' },

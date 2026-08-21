@@ -1,0 +1,162 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site.js';
+
+// Where volunteer submissions should go is a CLIENT DECISION (email inbox / Google Sheet /
+// CRM / form service). Until confirmed, this form uses a no-backend mailto: fallback that
+// opens the visitor's email client addressed to the Foundation. Replace `formEndpoint` with a
+// real POST endpoint (e.g. Formspree) when the client decides.
+const formEndpoint = '';
+const toEmail = site.contact.email;
+
+const availability = ['Weekdays', 'Weekends', 'Evenings', 'A few hours a month', 'Flexible'];
+const volunteerTypes = ['Mentoring', 'Professional expertise / skills-based', 'On-ground community support', 'Event support', 'Remote / online', 'Wherever needed'];
+---
+<Layout title="Volunteer" description="Give your time, skills and experience to The Ma Foi Foundation — sign up to volunteer.">
+  <section class="section--navy section--tight">
+    <div class="container">
+      <p class="eyebrow">Get involved</p>
+      <h1>Volunteer with us</h1>
+      <p class="lead">Your time, skills and experience can help create meaningful change. Tell us a
+        little about yourself and how you’d like to contribute — we’ll be in touch.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container vol-wrap">
+      <form
+        class="vol-form reveal"
+        id="volunteer-form"
+        method="POST"
+        action={formEndpoint || undefined}
+        data-to={toEmail}
+      >
+        <div class="vf-row">
+          <div class="vf-field">
+            <label for="name">Name<span aria-hidden="true">*</span></label>
+            <input id="name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div class="vf-field">
+            <label for="email">Email<span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="vf-row">
+          <div class="vf-field">
+            <label for="phone">Phone<span aria-hidden="true">*</span></label>
+            <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+          </div>
+          <div class="vf-field">
+            <label for="location">Location<span aria-hidden="true">*</span></label>
+            <input id="location" name="location" type="text" required autocomplete="address-level2" />
+          </div>
+        </div>
+
+        <div class="vf-field">
+          <label for="contribute">How would you like to contribute?</label>
+          <textarea id="contribute" name="contribute" rows="4"></textarea>
+        </div>
+
+        <div class="vf-row">
+          <div class="vf-field">
+            <label for="skills">Skills</label>
+            <input id="skills" name="skills" type="text" placeholder="e.g. teaching, finance, design" />
+          </div>
+          <div class="vf-field">
+            <label for="interests">Interests</label>
+            <input id="interests" name="interests" type="text" placeholder="e.g. education, healthcare, women’s empowerment" />
+          </div>
+        </div>
+
+        <div class="vf-row">
+          <div class="vf-field">
+            <label for="availability">Availability</label>
+            <select id="availability" name="availability">
+              <option value="">Select…</option>
+              {availability.map((a) => <option value={a}>{a}</option>)}
+            </select>
+          </div>
+          <div class="vf-field">
+            <label for="vtype">Volunteer type</label>
+            <select id="vtype" name="vtype">
+              <option value="">Select…</option>
+              {volunteerTypes.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn--primary" type="submit">Submit</button>
+        <p class="vf-status" id="vf-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="vol-aside reveal">
+        <h2>Why volunteer?</h2>
+        <p>Whether you mentor a young person, share your professional expertise, support a community
+          initiative or simply lend a helping hand, your contribution can make a difference.</p>
+        <p>Join The Ma Foi Foundation and be part of creating opportunities, empowering communities
+          and building a better future.</p>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .vol-wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp-5); align-items: start; }
+  .vol-form { display: grid; gap: var(--sp-3); }
+  .vf-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+  .vf-field { display: grid; gap: 0.4rem; }
+  .vf-field label { font-weight: 600; font-size: 0.9rem; color: var(--tmf-navy-a); }
+  .vf-field label span { color: var(--tmf-blue-400); }
+  .vf-field input, .vf-field textarea, .vf-field select {
+    font-family: var(--font-body); font-size: 1rem; color: var(--tmf-ink);
+    padding: 0.7rem 0.9rem; border: 1px solid var(--tmf-grey-100); border-radius: var(--radius);
+    background: var(--tmf-white); width: 100%;
+  }
+  .vf-field input:focus, .vf-field textarea:focus, .vf-field select:focus {
+    outline: 3px solid var(--tmf-sky-200); outline-offset: 1px; border-color: var(--tmf-blue-300);
+  }
+  .vol-form button { justify-self: flex-start; }
+  .vf-status { margin: 0; font-size: 0.9rem; color: var(--tmf-blue-400); font-weight: 600; }
+
+  .vol-aside { background: var(--tmf-offwhite); border: 1px solid var(--tmf-grey-100); border-radius: var(--radius-lg); padding: var(--sp-4); position: sticky; top: calc(var(--header-h) + 16px); }
+  .vol-aside h2 { margin-top: 0; }
+
+  @media (max-width: 860px) {
+    .vol-wrap { grid-template-columns: 1fr; }
+    .vol-aside { position: static; order: -1; }
+  }
+  @media (max-width: 560px) { .vf-row { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const form = document.getElementById('volunteer-form');
+  const status = document.getElementById('vf-status');
+  // If no real POST endpoint is configured, fall back to a mailto: draft so no submission is lost.
+  if (form && !form.getAttribute('action')) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const to = form.dataset.to || '';
+      const get = (k) => (data.get(k) || '').toString().trim();
+      const lines = [
+        `Name: ${get('name')}`,
+        `Email: ${get('email')}`,
+        `Phone: ${get('phone')}`,
+        `Location: ${get('location')}`,
+        '',
+        `How would you like to contribute?`,
+        get('contribute') || '—',
+        '',
+        `Skills: ${get('skills') || '—'}`,
+        `Interests: ${get('interests') || '—'}`,
+        `Availability: ${get('availability') || '—'}`,
+        `Volunteer type: ${get('vtype') || '—'}`,
+      ];
+      const subject = encodeURIComponent(`Volunteer sign-up — ${get('name')}`);
+      const body = encodeURIComponent(lines.join('\n'));
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      if (status) status.textContent = 'Opening your email app to send your details…';
+    });
+  }
+</script>

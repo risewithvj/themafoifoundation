@@ -2,6 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site.js';
 const mapQuery = encodeURIComponent(site.contact.address);
+
+// Named team contacts (corrections draft 3). NOTE: doc spelled the second name "Rahul Kuma";
+// using "Rahul Kumar" (email is rahulkumar@) — flagged for confirmation.
+const team = [
+  { name: 'Rowena Scruville', role: 'Head', email: 'rowena@mafoigroup.com' },
+  { name: 'Rahul Kumar', role: 'Senior Manager — Partnerships', email: 'rahulkumar@mafoigroup.com' },
+  { name: 'Kavyasree S', role: 'Communications & Impact', email: 'kavyasree@mafoigroup.com' },
+];
 ---
 <Layout title="Contact" description="Get in touch with The Ma Foi Foundation — Anna Nagar, Chennai.">
   <section class="section--navy section--tight">
@@ -37,12 +45,58 @@ const mapQuery = encodeURIComponent(site.contact.address);
         </ul>
         <a class="btn btn--primary" href="/partner-with-us">Partner with us</a>
       </div>
-      <div class="reveal map-wrap">
+      <div class="reveal map-wrap" id="location">
         <iframe
           title="Map to The Ma Foi Foundation, Anna Nagar, Chennai"
           src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our team -->
+  <section class="section section--grey">
+    <div class="container">
+      <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
+        <p class="eyebrow">Our team</p>
+        <h2>Speak to the right person</h2>
+      </div>
+      <ul class="team-grid reveal">
+        {team.map((t) => (
+          <li class="team-card">
+            <h3>{t.name}</h3>
+            <p class="team-role">{t.role}</p>
+            <a href={`mailto:${t.email}`}>{t.email}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Make a donation / bank details -->
+  <section id="donate" class="section">
+    <div class="container donate-grid">
+      <div class="reveal">
+        <p class="eyebrow">Make a donation</p>
+        <h2>Empower a young person’s future</h2>
+        <p class="lead">Your contribution funds scholarships, mentorship and connections to
+          employability. To donate, use the bank details opposite or write to us and we’ll help you
+          give.</p>
+        <a class="btn btn--primary" href={`mailto:${site.contact.email}?subject=I%20would%20like%20to%20donate`}>Email us about donating</a>
+      </div>
+      <div class="reveal bank-card">
+        <h3>Bank details</h3>
+        <!-- ASSET NEEDED: the client has not yet supplied bank account details. Replace the
+             placeholders below with the real values before publishing. -->
+        <dl class="bank-list">
+          <dt>Account name</dt><dd>[to be provided by client]</dd>
+          <dt>Account number</dt><dd>[to be provided by client]</dd>
+          <dt>IFSC code</dt><dd>[to be provided by client]</dd>
+          <dt>Bank &amp; branch</dt><dd>[to be provided by client]</dd>
+        </dl>
+        <p class="bank-note">Bank account details will be published here once confirmed by the
+          Foundation.</p>
       </div>
     </div>
   </section>
@@ -56,5 +110,24 @@ const mapQuery = encodeURIComponent(site.contact.address);
   .ci { font-weight: 700; color: var(--tmf-navy-a); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
   .map-wrap { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); min-height: 380px; }
   .map-wrap iframe { width: 100%; height: 100%; min-height: 380px; border: 0; display: block; }
-  @media (max-width: 780px) { .contact-grid { grid-template-columns: 1fr; } .contact-list li { grid-template-columns: 100px 1fr; } }
+
+  .team-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-3); }
+  .team-card { background: var(--tmf-white); border: 1px solid var(--tmf-grey-100); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--sp-3); }
+  .team-card h3 { font-size: 1.15rem; margin: 0 0 0.2rem; }
+  .team-role { color: var(--tmf-muted); font-size: 0.9rem; margin: 0 0 0.5rem; }
+
+  .donate-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--sp-5); align-items: start; }
+  .bank-card { background: var(--tmf-offwhite); border: 1px solid var(--tmf-grey-100); border-radius: var(--radius-lg); padding: var(--sp-4); }
+  .bank-card h3 { margin-top: 0; }
+  .bank-list { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.4rem var(--sp-3); }
+  .bank-list dt { font-weight: 700; color: var(--tmf-navy-a); font-size: 0.85rem; }
+  .bank-list dd { margin: 0; color: var(--tmf-muted); }
+  .bank-note { margin: var(--sp-2) 0 0; font-size: 0.85rem; color: var(--tmf-muted); }
+  section[id] { scroll-margin-top: var(--header-h); }
+
+  @media (max-width: 780px) {
+    .contact-grid { grid-template-columns: 1fr; } .contact-list li { grid-template-columns: 100px 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    .donate-grid { grid-template-columns: 1fr; gap: var(--sp-4); }
+  }
 </style>

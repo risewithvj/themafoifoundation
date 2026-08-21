@@ -5,7 +5,7 @@ import { verticalOf, listedPrograms } from '../data/programs.js';
 const path = Astro.url.pathname;
 const isActive = (href) => (href === '/' ? path === '/' : path.startsWith(href));
 const simpleNav = mainNav.filter((i) => !i.mega);
-const before = ['Home', 'About', 'What We Offer'];
+const before = ['Home', 'About', 'Our Work'];
 const leftNav = simpleNav.filter((i) => before.includes(i.label));
 const rightNav = simpleNav.filter((i) => !before.includes(i.label));
 ---
@@ -63,11 +63,11 @@ const rightNav = simpleNav.filter((i) => !before.includes(i.label));
             </div>
 
             <div class="mega-default" aria-hidden="true">
-              <p class="eyebrow">Our programmes</p>
-              <p class="mega-default-title">{listedPrograms.length} programmes across {verticals.length} verticals</p>
-              <p class="mega-default-text">Hover a category to see its programmes — from our founding DISHA
+              <p class="eyebrow">Our programs</p>
+              <p class="mega-default-title">{listedPrograms.length} programs across {verticals.length} verticals</p>
+              <p class="mega-default-text">Hover a category to see its programs — from our founding DISHA
                 initiative to future-ready EV, AI and data skilling.</p>
-              <a class="btn btn--primary" href="/programs">Browse all programmes</a>
+              <a class="btn btn--primary" href="/programs">Browse all programs</a>
             </div>
           </div>
         </li>

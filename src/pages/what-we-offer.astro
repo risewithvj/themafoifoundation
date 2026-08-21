@@ -1,37 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { imagesForFolders } from '../data/images.js';
 import { verticals } from '../data/site.js';
-import { verticalOf } from '../data/programs.js';
-
-const heroImg = imagesForFolders(['ai-coe'])[2] || imagesForFolders(['general'])[0];
 
 const offerings = [
   {
+    eyebrow: 'Our largest focus area',
     title: 'Youth Skilling & Employment',
-    note: 'Our largest focus area',
     points: [
-      'Employment-linked programmes with direct placement across BFSI, IT, logistics and manufacturing.',
-      'College & institution-linked programmes for final-year and graduating students via ITIs and degree colleges, finishing schools and government partnerships.',
+      'Employment-linked programs with direct placement across BFSI, IT, logistics and manufacturing.',
+      'College & institution-linked programs for final-year and graduating students via ITIs and degree colleges, finishing schools and government partnerships.',
       'Centres of Excellence & capability build — design and setup of CoEs, infrastructure, curriculum and trainer enablement across EV, AI and technical training.',
     ],
   },
   {
+    eyebrow: 'Breaking occupational barriers',
     title: 'Women Empowerment',
-    note: 'Breaking occupational barriers',
     points: [
       'Non-traditional trades — automotive, EV, forklift and driving.',
-      'Livelihood programmes — food processing, tailoring and micro-enterprise.',
+      'Livelihood programs — food processing, tailoring and micro-enterprise.',
       'Mobility and transport self-employment pathways.',
     ],
   },
   {
-    title: 'School Programmes',
-    note: 'Early aspiration',
+    eyebrow: 'Early aspiration',
+    title: 'School Programs',
     points: [
       'Rocketry and STEM awareness.',
       'Tally and accounting fundamentals.',
       'AI and digital literacy for school-age learners.',
+    ],
+  },
+  {
+    eyebrow: 'Educational opportunity',
+    title: 'Scholarship Program',
+    points: [
+      'Financial support for deserving and meritorious students.',
+      'Enabling continued education and reducing barriers to learning.',
+      'Supporting children and youth in pursuing higher education.',
+      'Creating pathways from education to long-term opportunity.',
     ],
   },
 ];
@@ -42,22 +48,23 @@ const pillars = [
   { t: 'Scalable Impact Systems', d: 'Replicable models backed by multi-year CSR.' },
 ];
 ---
-<Layout title="What We Offer" description="Youth skilling & employment, women empowerment and school programmes — employer-aligned and placement-first.">
+<Layout title="Our Work" description="Youth skilling & employment, women empowerment, school programs and scholarships — employer-aligned and placement-first.">
   <section class="section--navy section--tight">
     <div class="container">
       <p class="eyebrow">Areas of expertise</p>
-      <h1>What We Offer</h1>
-      <p class="lead">Employer-aligned, placement-first skilling — built around three focus areas and
-        three principles that make our impact last.</p>
+      <h1>Our Work</h1>
+      <p class="lead">We bring together expertise, partnerships and purpose to create holistic,
+        community-focused solutions that create opportunities, enable growth, strengthen livelihoods
+        and contribute to the overall well-being and development of individuals and communities.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container offer-stack">
       {offerings.map((o, i) => (
-        <article class="offer-row reveal">
+        <article class={`offer-row reveal ${i % 2 === 1 ? 'offer-row--alt' : ''}`}>
           <div class="offer-row-head">
-            <p class="eyebrow">{String(i + 1).padStart(2, '0')} · {o.note}</p>
+            <p class="eyebrow">{o.eyebrow}</p>
             <h2>{o.title}</h2>
           </div>
           <ul class="offer-points">
@@ -72,7 +79,7 @@ const pillars = [
     <div class="container">
       <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
         <p class="eyebrow">How we deliver</p>
-        <h2>Three pillars behind every programme</h2>
+        <h2>Three pillars behind every program</h2>
       </div>
       <div class="grid grid--3">
         {pillars.map((p) => (
@@ -89,14 +96,14 @@ const pillars = [
     <div class="container">
       <div class="reveal" style="max-width:60ch;margin-bottom:var(--sp-4)">
         <p class="eyebrow">Where it happens</p>
-        <h2>Explore our programme verticals</h2>
+        <h2>Explore our program verticals</h2>
       </div>
       <div class="grid grid--3">
         {verticals.map((v) => (
           <a class="card vcard reveal" href={`/programs#${v.key}`}>
             <h3>{v.title}</h3>
             <p>{v.blurb}</p>
-            <span class="vcard-meta">{verticalOf(v.key).length} programme{verticalOf(v.key).length === 1 ? '' : 's'} →</span>
+            <span class="vcard-meta">Explore <span aria-hidden="true">→</span></span>
           </a>
         ))}
       </div>
@@ -107,6 +114,10 @@ const pillars = [
 <style>
   .offer-stack { display: grid; gap: var(--sp-4); }
   .offer-row { display: grid; grid-template-columns: 1fr 1.6fr; gap: var(--sp-4); padding: var(--sp-4); background: var(--tmf-offwhite); border: 1px solid var(--tmf-grey-100); border-radius: var(--radius-lg); }
+  /* Alternate the rhythm so the stack doesn't read as one repeating card. */
+  .offer-row--alt { grid-template-columns: 1.6fr 1fr; background: var(--tmf-white); box-shadow: var(--shadow-sm); }
+  .offer-row--alt .offer-row-head { order: 2; }
+  .offer-row--alt .offer-points { order: 1; }
   .offer-points { margin: 0; padding-left: 1.1em; display: grid; gap: 0.6rem; }
   .offer-points li { color: var(--tmf-ink); }
   .pillar { padding: var(--sp-4); }
@@ -115,5 +126,9 @@ const pillars = [
   .vcard h3 { font-size: 1.15rem; margin: 0; }
   .vcard p { font-size: 0.9rem; color: var(--tmf-muted); flex: 1; margin: 0; }
   .vcard-meta { font-weight: 600; font-size: 0.82rem; color: var(--tmf-blue-400); }
-  @media (max-width: 720px) { .offer-row { grid-template-columns: 1fr; gap: var(--sp-2); } }
+  @media (max-width: 720px) {
+    .offer-row, .offer-row--alt { grid-template-columns: 1fr; gap: var(--sp-2); }
+    .offer-row--alt .offer-row-head { order: 0; }
+    .offer-row--alt .offer-points { order: 0; }
+  }
 </style>

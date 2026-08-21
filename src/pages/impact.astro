@@ -1,37 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import StatBadges from '../components/StatBadges.astro';
 import Gallery from '../components/Gallery.astro';
-import { homeStats } from '../data/site.js';
 import { imagesForFolders } from '../data/images.js';
 
-const general = imagesForFolders(['general', 'gda', 'bfsi']);
-const heroImg = general[0];
-const galleryImgs = general.slice(1, 7);
-
-const alumniStats = [
-  { value: '1,000+', label: 'Alumni across locations' },
-  { value: '2×', label: 'In-person meets a year' },
-  { value: 'Always-on', label: 'Mentorship & upskilling' },
-];
+// Curated, relevant, de-duplicated program photography — no generic 'general'/'other'
+// padding, and no image reused across the two galleries on this page.
+const pick = (folder, i = 0) => imagesForFolders([folder])[i];
+const heroImg = pick('ev-coe');
+const alumniImgs = [pick('bfsi'), pick('customer-care'), pick('financial-literacy'), pick('disha-sports')].filter(Boolean);
+const galleryImgs = [pick('gda'), pick('ev-training'), pick('welding'), pick('sewing'), pick('food-processing'), pick('automobile')].filter(Boolean);
 ---
-<Layout title="Impact & Alumni" description="2 Lakh+ lives impacted, a 1,000+ strong alumni network, and lasting career continuity.">
-  <section class="section--navy section--tight">
-    <div class="container">
-      <p class="eyebrow">Our impact</p>
-      <h1>Outcomes that outlast the programme</h1>
-      <p class="lead">Two decades of skilling measured not in sessions delivered, but in careers
-        started and livelihoods sustained.</p>
+<Layout title="Impact & Alumni" description="2,52,000+ lives impacted, a 5,000+ strong alumni network, and lasting career continuity.">
+  <section class="prog-hero">
+    {heroImg && <img class="prog-hero-bg" src={heroImg} alt="Trainees at a Ma Foi Foundation Centre of Excellence" />}
+    <div class="prog-hero-overlay"></div>
+    <div class="container prog-hero-inner">
+      <p class="eyebrow" style="color:var(--tmf-sky-200)">Our impact</p>
+      <h1>Outcomes that outlast the program</h1>
+      <p class="prog-hero-sum">Two decades of skilling measured not in sessions delivered, but in
+        careers started and livelihoods sustained.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="topstat-inner reveal" style="text-align:center;margin-bottom:var(--sp-5)">
-        <p class="topstat-num">2,53,200+</p>
-        <p class="topstat-label">lives impacted across India by 2026</p>
+      <div class="topstat-inner reveal" style="text-align:center">
+        <span class="topstat-num countup" data-target="252000" data-suffix="+" data-format="in">0</span>
+        <p class="topstat-label">lives impacted across India — and counting</p>
       </div>
-      <div class="reveal"><StatBadges stats={homeStats} columns={4} /></div>
     </div>
   </section>
 
@@ -40,15 +36,16 @@ const alumniStats = [
     <div class="container alumni-grid">
       <div class="reveal">
         <p class="eyebrow">Alumni engagement</p>
-        <h2>A 1,000+ strong alumni network</h2>
-        <p>Career support does not end at placement. The <strong>TMF Alumni Forum</strong> connects a
-          network of over 1,000 alumni across locations for mentorship, job-transition support and
-          upskilling guidance.</p>
-        <p>Biannual in-person alumni meets keep the community close — turning individual success
-          stories into a network that lifts the next cohort.</p>
-        <div class="alumni-stats"><StatBadges stats={alumniStats} columns={3} /></div>
+        <h2>A 5,000+ Strong Alumni Network</h2>
+        <p>At TMF, our relationship with learners goes beyond training and placement. The
+          <strong>TMF Alumni Forum</strong> brings together a growing network of 5,000+ alumni,
+          creating a living ecosystem of peer connection, mentorship, career transitions and
+          continuous learning.</p>
+        <p>Through regular alumni engagements and biannual in-person meets, we keep this community
+          connected and purposeful — enabling alumni to share experiences, open doors for one another
+          and become catalysts for the next generation of learners.</p>
       </div>
-      <div class="reveal"><Gallery images={imagesForFolders(['general']).slice(0, 4)} title="alumni community" columns={2} /></div>
+      <div class="reveal"><Gallery images={alumniImgs} title="alumni community" columns={2} /></div>
     </div>
   </section>
 
@@ -58,15 +55,58 @@ const alumniStats = [
         <p class="eyebrow">In pictures</p>
         <h2>Impact in the field</h2>
       </div>
-      <Gallery images={galleryImgs} title="programme impact" columns={3} />
+      <Gallery images={galleryImgs} title="program impact" columns={3} />
     </div>
   </section>
 </Layout>
 
 <style>
-  .topstat-num { font-family: var(--font-head); font-weight: 800; font-size: clamp(2.6rem, 8vw, 5rem); color: var(--tmf-blue-400); line-height: 1; margin: 0; }
+  .prog-hero { position: relative; min-height: 52vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .prog-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .prog-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,42,74,0.3), rgba(0,42,74,0.85)); }
+  .prog-hero-inner { position: relative; z-index: 1; color: #fff; padding-block: var(--sp-6); }
+  .prog-hero-inner h1 { color: #fff; max-width: 20ch; }
+  .prog-hero-sum { color: rgba(255,255,255,0.90); max-width: 54ch; margin: 0; }
+
+  .topstat-num { display: block; font-family: var(--font-head); font-weight: 800; font-size: clamp(2.6rem, 8vw, 5rem); color: var(--tmf-blue-400); line-height: 1; font-variant-numeric: tabular-nums; }
   .topstat-label { font-size: 1.05rem; color: var(--tmf-muted); margin: 0.5rem 0 0; }
   .alumni-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--sp-5); align-items: center; }
-  .alumni-stats { margin-top: var(--sp-3); }
   @media (max-width: 820px) { .alumni-grid { grid-template-columns: 1fr; } }
 </style>
+
+<script>
+  // Count-up on scroll (mirrors the homepage helper; supports Indian digit grouping).
+  const groupIndian = (n) => {
+    const s = String(n);
+    if (s.length <= 3) return s;
+    return s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + s.slice(-3);
+  };
+  const format = (n, mode) => (mode === 'in' ? groupIndian(n) : String(n));
+  const runCount = (el) => {
+    const target = Number(el.dataset.target || '0');
+    const suffix = el.dataset.suffix || '';
+    const mode = el.dataset.format || 'plain';
+    let start = null;
+    const step = (ts) => {
+      if (start === null) start = ts;
+      const p = Math.min((ts - start) / 1400, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = format(Math.round(target * eased), mode) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const counters = document.querySelectorAll('.countup');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    counters.forEach((el) => {
+      const mode = el.dataset.format || 'plain';
+      el.textContent = format(Number(el.dataset.target || '0'), mode) + (el.dataset.suffix || '');
+    });
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { runCount(e.target); io.unobserve(e.target); }
+    }, { threshold: 0.4 });
+    counters.forEach((el) => io.observe(el));
+  }
+</script>
