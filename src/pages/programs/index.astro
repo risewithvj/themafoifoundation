@@ -2,16 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import ProgramCard from '../../components/ProgramCard.astro';
 import { verticals } from '../../data/site.js';
-import { verticalOf } from '../../data/programs.js';
+import { verticalOf, listedPrograms } from '../../data/programs.js';
 ---
 <Layout title="Programs" description="Every skilling program delivered by The Ma Foi Foundation, grouped by vertical — DISHA first.">
   <section class="section--navy section--tight prog-intro">
     <div class="container">
       <p class="eyebrow">Programs</p>
       <h1>Programs</h1>
-      <!-- Copy supplied verbatim by the client. NOTE: the site currently lists 39 programs across
-           9 verticals — the "38 projects across 10 verticals" figure is flagged for confirmation. -->
-      <p class="lead">38 projects across 10 verticals, shaped by over two decades of grassroots
+      <p class="lead">{listedPrograms.length} programs across {verticals.length} verticals, shaped by over two decades of grassroots
         experience and a deep understanding of evolving community needs — from our pioneering DISHA
         initiative to future-focused programs in EV, AI, data and emerging technologies. Explore the
         breadth of our work and discover how each vertical translates opportunity into meaningful,

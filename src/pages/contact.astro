@@ -3,8 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site.js';
 const mapQuery = encodeURIComponent(site.contact.address);
 
-// Named team contacts (corrections draft 3). NOTE: doc spelled the second name "Rahul Kuma";
-// using "Rahul Kumar" (email is rahulkumar@) — flagged for confirmation.
+// Named team contacts (corrections draft 3). "Rahul Kumar" spelling confirmed by the client.
 const team = [
   { name: 'Rowena Scruville', role: 'Head', email: 'rowena@mafoigroup.com' },
   { name: 'Rahul Kumar', role: 'Senior Manager — Partnerships', email: 'rahulkumar@mafoigroup.com' },
@@ -87,16 +86,12 @@ const team = [
       </div>
       <div class="reveal bank-card">
         <h3>Bank details</h3>
-        <!-- ASSET NEEDED: the client has not yet supplied bank account details. Replace the
-             placeholders below with the real values before publishing. -->
         <dl class="bank-list">
-          <dt>Account name</dt><dd>[to be provided by client]</dd>
-          <dt>Account number</dt><dd>[to be provided by client]</dd>
-          <dt>IFSC code</dt><dd>[to be provided by client]</dd>
-          <dt>Bank &amp; branch</dt><dd>[to be provided by client]</dd>
+          <dt>Account name</dt><dd>The Ma Foi Foundation</dd>
+          <dt>Account number</dt><dd>792705000150</dd>
+          <dt>IFSC code</dt><dd>CIC0007927</dd>
+          <dt>Bank &amp; branch</dt><dd>ICICI Bank, Chennai – New Avadi Road Branch</dd>
         </dl>
-        <p class="bank-note">Bank account details will be published here once confirmed by the
-          Foundation.</p>
       </div>
     </div>
   </section>

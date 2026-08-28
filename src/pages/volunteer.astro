@@ -2,11 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import { site } from '../data/site.js';
 
-// Where volunteer submissions should go is a CLIENT DECISION (email inbox / Google Sheet /
-// CRM / form service). Until confirmed, this form uses a no-backend mailto: fallback that
-// opens the visitor's email client addressed to the Foundation. Replace `formEndpoint` with a
-// real POST endpoint (e.g. Formspree) when the client decides.
-const formEndpoint = '';
+// Volunteer submissions route to a Google Sheet (client's chosen destination) via a Google
+// Apps Script Web App — see google-apps-script/volunteer-form-handler.gs for the setup steps.
+// Once the client deploys that script, paste its /exec URL below to activate the POST path.
+// While `formEndpoint` is blank, the form falls back to a no-backend mailto: draft so nothing
+// breaks before the script is live.
+const formEndpoint = 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE';
+// Treat the un-replaced placeholder as "not yet configured" so the mailto: fallback stays
+// active until the client deploys their Apps Script and pastes the real /exec URL above.
+const endpointReady = !!formEndpoint && formEndpoint !== 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE';
 const toEmail = site.contact.email;
 
 const availability = ['Weekdays', 'Weekends', 'Evenings', 'A few hours a month', 'Flexible'];
@@ -28,7 +32,8 @@ const volunteerTypes = ['Mentoring', 'Professional expertise / skills-based', 'O
         class="vol-form reveal"
         id="volunteer-form"
         method="POST"
-        action={formEndpoint || undefined}
+        action={endpointReady ? formEndpoint : undefined}
+        data-endpoint={endpointReady ? formEndpoint : ''}
         data-to={toEmail}
       >
         <div class="vf-row">
@@ -132,8 +137,29 @@ const volunteerTypes = ['Mentoring', 'Professional expertise / skills-based', 'O
 <script>
   const form = document.getElementById('volunteer-form');
   const status = document.getElementById('vf-status');
-  // If no real POST endpoint is configured, fall back to a mailto: draft so no submission is lost.
-  if (form && !form.getAttribute('action')) {
+  const endpoint = form ? (form.dataset.endpoint || '') : '';
+
+  if (form && endpoint) {
+    // A Google Apps Script Web App is configured — POST the form data to it. Apps Script web
+    // apps don't return CORS headers to a cross-origin fetch, so we use mode: 'no-cors' and get
+    // an opaque response; the fetch resolving (not throwing) is our success signal.
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      if (status) status.textContent = 'Sending…';
+      try {
+        await fetch(endpoint, { method: 'POST', mode: 'no-cors', body: new FormData(form) });
+        if (status) status.textContent = 'Thanks — we’ve received your details.';
+        form.reset();
+      } catch (err) {
+        if (status) status.textContent = 'Sorry, something went wrong. Please email us instead.';
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+  } else if (form) {
+    // No real POST endpoint configured yet — fall back to a mailto: draft so no submission is lost.
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const data = new FormData(form);

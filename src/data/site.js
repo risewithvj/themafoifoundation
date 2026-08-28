@@ -29,9 +29,10 @@ export const verticals = [
   { key: 'national-skill-mission', title: 'National Skill Mission', blurb: 'Nationally-backed livelihood skilling through the DDUGKY government mission.' },
 ];
 
-// NOTE: The client wants all 30 partner logos. Only 15 logo files exist in
-// public/images/partners/. The remaining 15 are flagged as ASSET NEEDED — add
-// their { slug, name } entries here and drop matching <slug>.png files in that folder.
+// Partner logos: 24 of the client's promised 30 are live (see public/images/partners/).
+// The 9 newest crops came from a low-res composite reference sheet — good enough to preview
+// and ship, but should be swapped for original individual brand assets (PNG/SVG) when the
+// client supplies them. 6 logos are still outstanding from the client.
 export const partners = [
   { slug: 'hdfc-parivartan', name: 'HDFC Bank Parivartan' },
   { slug: 'jombay', name: 'Jombay' },
@@ -48,6 +49,15 @@ export const partners = [
   { slug: 'nasscom-foundation', name: 'Nasscom Foundation' },
   { slug: 'bharat-cares', name: 'Bharat Cares' },
   { slug: 'nsdc', name: 'NSDC' },
+  { slug: 'mahindra-rise', name: 'Mahindra Rise' },
+  { slug: 'movate', name: 'Movate' },
+  { slug: 'tech-mahindra-foundation', name: 'Tech Mahindra Foundation' },
+  { slug: 'ddu-gky', name: 'DDU-GKY' },
+  { slug: 'policybazaar', name: 'Policybazaar' },
+  { slug: 'icici-foundation', name: 'ICICI Foundation' },
+  { slug: 'tata-coffee', name: 'Tata Coffee' },
+  { slug: 'rpg-foundation', name: 'RPG Foundation' },
+  { slug: 'fedbank', name: 'Fedbank Financial Services' },
 ];
 
 // Top-level nav (Programs is a mega-menu built from verticals + programs).
